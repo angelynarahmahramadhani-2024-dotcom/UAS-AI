@@ -11,66 +11,44 @@
       padding: 48px 24px 100px;
       position: relative; z-index: 1;
     }
-
-    /* ─── Result Header ──────────────────────── */
-    .result-greeting {
-      font-size: 14px; color: var(--ink-muted);
-      text-align: center; margin-bottom: 8px;
-    }
-    .result-main {
-      text-align: center; margin-bottom: 56px;
-    }
+    .result-main { text-align: center; margin-bottom: 56px; }
+    .result-greeting { font-size: 14px; color: var(--ink-muted); text-align: center; margin-bottom: 8px; }
     .result-emoji {
       font-size: 56px; margin-bottom: 16px;
       animation: float 4s ease-in-out infinite;
       display: block;
     }
     .result-title {
-      font-family: 'Playfair Display', serif;
+      font-family: 'Cormorant Garamond', serif;
       font-size: clamp(32px, 6vw, 52px);
-      color: var(--ink);
-      margin-bottom: 8px;
+      color: var(--ink); margin-bottom: 8px;
     }
-    .result-subtitle {
-      font-size: 15px; color: var(--ink-muted);
-      margin-bottom: 24px;
-    }
+    .result-subtitle { font-size: 15px; color: var(--ink-muted); margin-bottom: 24px; }
     .grade-pill {
       display: inline-flex; align-items: center; gap: 8px;
       padding: 10px 24px;
       border-radius: var(--radius-pill);
-      font-size: 14px; font-weight: 600;
-      border: 2px solid;
+      font-size: 14px; font-weight: 600; border: 2px solid;
     }
 
-    /* ─── Grid layout ────────────────────────── */
     .results-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 24px;
-      margin-bottom: 32px;
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 24px; margin-bottom: 32px;
     }
-    .results-grid.full { grid-template-columns: 1fr; }
-
-    /* ─── Chart card ─────────────────────────── */
     .chart-card { padding: 36px 32px; }
     .card-label {
       font-size: 11px; letter-spacing: 3px;
-      text-transform: uppercase; color: var(--gold);
+      text-transform: uppercase; color: var(--rose);
       font-weight: 600; margin-bottom: 6px;
     }
     .card-title {
-      font-family: 'Playfair Display', serif;
+      font-family: 'Cormorant Garamond', serif;
       font-size: 20px; color: var(--ink);
       margin-bottom: 24px;
     }
-    #radarChart { max-height: 320px; }
 
-    /* ─── Score bars ─────────────────────────── */
     .score-bars { display: flex; flex-direction: column; gap: 14px; }
-    .score-row {
-      display: flex; align-items: center; gap: 12px;
-    }
+    .score-row { display: flex; align-items: center; gap: 12px; }
     .score-label {
       width: 130px; flex-shrink: 0;
       font-size: 13px; color: var(--ink-soft);
@@ -79,123 +57,90 @@
     .score-label-icon { font-size: 16px; }
     .score-track {
       flex: 1; height: 8px;
-      background: var(--parchment);
-      border-radius: var(--radius-pill);
-      overflow: hidden;
+      background: var(--blush-deep);
+      border-radius: var(--radius-pill); overflow: hidden;
     }
-    .score-bar {
-      height: 100%;
-      border-radius: var(--radius-pill);
-      transition: width 1s cubic-bezier(0.4,0,0.2,1);
-    }
-    .score-val {
-      width: 28px; flex-shrink: 0;
-      font-size: 12px; font-weight: 600;
-      color: var(--ink-muted); text-align: right;
-    }
-    .score-winner .score-bar { box-shadow: 0 0 8px rgba(201,168,76,0.4); }
-    .score-winner .score-label { color: var(--gold-dark); font-weight: 600; }
-    .score-winner .score-val { color: var(--gold-dark); }
+    .score-bar { height: 100%; border-radius: var(--radius-pill); transition: width 1s cubic-bezier(0.4,0,0.2,1); }
+    .score-val { width: 28px; flex-shrink: 0; font-size: 12px; font-weight: 600; color: var(--ink-muted); text-align: right; }
+    .score-winner .score-bar { box-shadow: 0 0 8px rgba(212,96,122,0.4); }
+    .score-winner .score-label { color: var(--rose-deep); font-weight: 600; }
+    .score-winner .score-val { color: var(--rose-deep); }
 
-    /* ─── Description card ───────────────────── */
     .desc-card { padding: 36px 32px; }
-    .desc-text {
-      font-size: 15px; color: var(--ink-soft);
-      line-height: 1.8; margin-bottom: 20px;
-    }
+    .desc-text { font-size: 15px; color: var(--ink-soft); line-height: 1.8; margin-bottom: 20px; }
     .grade-desc {
       padding: 16px 20px;
-      background: var(--gold-pale);
-      border-left: 3px solid var(--gold);
+      background: var(--rose-pale);
+      border-left: 3px solid var(--rose);
       border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
       font-size: 14px; color: var(--ink-soft);
       margin-bottom: 20px;
     }
-    .tips-list {
-      list-style: none;
-      display: flex; flex-direction: column; gap: 8px;
-    }
-    .tips-list li {
-      display: flex; align-items: flex-start; gap: 10px;
-      font-size: 13px; color: var(--ink-soft);
-    }
-    .tips-list li::before {
-      content: '✦';
-      color: var(--gold);
-      flex-shrink: 0;
-      margin-top: 2px;
-      font-size: 11px;
-    }
+    .tips-list { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+    .tips-list li { display: flex; align-items: flex-start; gap: 10px; font-size: 13px; color: var(--ink-soft); }
+    .tips-list li::before { content: '✿'; color: var(--rose); flex-shrink: 0; margin-top: 2px; font-size: 11px; }
 
-    /* ─── Recommendations ────────────────────── */
     .recs-section { margin-bottom: 32px; }
-    .recs-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 16px;
-    }
-    .rec-card {
-      padding: 24px 20px;
-      display: flex; flex-direction: column; gap: 8px;
-      animation: fadeUp 0.5s both;
-    }
+    .recs-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; }
+    .rec-card { padding: 24px 20px; display: flex; flex-direction: column; gap: 8px; animation: fadeUp 0.5s both; }
     .rec-icon { font-size: 28px; }
-    .rec-step {
-      font-size: 10px; letter-spacing: 2px;
-      text-transform: uppercase; color: var(--gold);
-      font-weight: 600;
-    }
-    .rec-name {
-      font-family: 'Playfair Display', serif;
-      font-size: 16px; color: var(--ink);
-      line-height: 1.3;
-    }
+    .rec-step { font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: var(--rose); font-weight: 600; }
+    .rec-name { font-family: 'Cormorant Garamond', serif; font-size: 16px; color: var(--ink); line-height: 1.3; }
     .rec-desc { font-size: 12px; color: var(--ink-muted); line-height: 1.6; }
 
-    /* ─── Actions ────────────────────────────── */
     .actions-row {
       display: flex; flex-wrap: wrap; gap: 12px;
-      justify-content: center;
-      margin-top: 48px;
+      justify-content: center; margin-top: 48px;
     }
 
-    /* ─── FC Modal (shared with index) ────────── */
+    /* Modal */
     .modal-overlay {
       display: none; position: fixed; inset: 0;
-      background: rgba(26,20,16,0.6);
+      background: rgba(45,26,34,0.6);
       backdrop-filter: blur(8px);
       z-index: 800;
-      align-items: center; justify-content: center;
-      padding: 20px;
+      align-items: center; justify-content: center; padding: 20px;
     }
     .modal-overlay.active { display: flex; animation: fadeIn 0.25s ease; }
     .modal {
       background: var(--white);
       border-radius: var(--radius-lg);
       padding: 44px 40px;
-      max-width: 580px; width: 100%;
+      max-width: 600px; width: 100%;
       max-height: 85vh; overflow-y: auto;
       box-shadow: var(--shadow-lg);
       animation: fadeUp 0.3s ease;
     }
-    .modal h2 {
-      font-family: 'Playfair Display', serif;
-      font-size: 26px; color: var(--gold-dark);
-      margin-bottom: 8px;
+    .modal-header-icon {
+      width: 52px; height: 52px;
+      background: var(--rose-pale);
+      border-radius: var(--radius-md);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 24px; margin-bottom: 16px;
     }
-    .modal .modal-sub { font-size: 13px; color: var(--ink-muted); margin-bottom: 24px; }
+    .modal h2 { font-family: 'Cormorant Garamond', serif; font-size: 28px; color: var(--ink); margin-bottom: 6px; }
+    .modal .modal-sub { font-size: 13px; color: var(--ink-muted); margin-bottom: 12px; }
+    .modal-intro {
+      font-size: 14px; color: var(--ink-soft); line-height: 1.7;
+      margin-bottom: 24px; padding-bottom: 20px;
+      border-bottom: 1px solid var(--parchment);
+    }
+    .modal-intro strong { color: var(--rose-deep); }
+    .modal-intro em { font-style: italic; color: var(--ink-mid); }
+    .fc-steps-list { list-style: none; margin-bottom: 20px; }
     .fc-step { display: flex; gap: 16px; padding: 16px 0; border-bottom: 1px solid var(--parchment); }
     .fc-step:last-child { border-bottom: none; }
     .fc-num {
       flex-shrink: 0; width: 32px; height: 32px;
-      background: var(--gold-pale); border-radius: 50%;
+      background: var(--rose-pale); border-radius: 50%;
       display: flex; align-items: center; justify-content: center;
-      font-size: 14px; font-weight: 600; color: var(--gold-dark);
+      font-size: 13px; font-weight: 700; color: var(--rose-deep);
     }
-    .fc-content h4 { font-size: 15px; font-weight: 600; color: var(--ink); margin-bottom: 4px; }
-    .fc-content p  { font-size: 13px; color: var(--ink-muted); line-height: 1.6; }
+    .fc-content h4 { font-size: 15px; font-weight: 600; color: var(--ink); margin-bottom: 5px; }
+    .fc-content p  { font-size: 13px; color: var(--ink-muted); line-height: 1.65; }
+    .modal-footer-note { margin-top: 20px; font-size: 13px; color: var(--ink-soft); line-height: 1.7; }
+    .modal-footer-note strong { color: var(--ink-mid); }
 
-    /* ─── Saved badge ────────────────────────── */
     .saved-badge {
       display: inline-flex; align-items: center; gap: 6px;
       padding: 6px 16px;
@@ -204,6 +149,25 @@
       font-size: 12px; font-weight: 600;
       border: 1px solid rgba(26,71,49,0.2);
     }
+
+    /* PDF loading overlay */
+    .pdf-loading {
+      display: none; position: fixed; inset: 0;
+      background: rgba(45,26,34,0.5);
+      backdrop-filter: blur(4px);
+      z-index: 9000;
+      align-items: center; justify-content: center;
+      flex-direction: column; gap: 16px;
+    }
+    .pdf-loading.active { display: flex; }
+    .pdf-spinner {
+      width: 48px; height: 48px;
+      border: 3px solid rgba(212,96,122,0.3);
+      border-top-color: var(--rose);
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+    }
+    .pdf-loading p { color: #fff; font-size: 14px; }
 
     @media (max-width: 768px) {
       .results-grid { grid-template-columns: 1fr; }
@@ -217,7 +181,6 @@
   </style>
 </head>
 <body>
-
 <div class="bg-ornament" aria-hidden="true"></div>
 
 <nav class="nav">
@@ -234,37 +197,52 @@
 </nav>
 
 <div class="results-wrap" id="resultsWrap">
-  <!-- Rendered by JS -->
   <div style="text-align:center;padding:80px 0;color:var(--ink-muted);">Memuat hasil…</div>
+</div>
+
+<!-- PDF Loading overlay -->
+<div class="pdf-loading" id="pdfLoading">
+  <div class="pdf-spinner"></div>
+  <p>Membuat PDF…</p>
 </div>
 
 <div class="lumere-toast" id="lumere-toast"></div>
 
-<!-- FC Modal -->
+<!-- Forward Chaining Modal -->
 <div class="modal-overlay" id="fcModal">
   <div class="modal">
-    <h2>Forward Chaining</h2>
+    <div class="modal-header-icon">🧠</div>
+    <h2>Metode Forward Chaining</h2>
     <p class="modal-sub">Bagaimana LUMÉRE menganalisis kulitmu</p>
-    <div class="fc-step"><div class="fc-num">1</div><div class="fc-content"><h4>Pengumpulan Fakta</h4><p>Kamu menjawab 15 pertanyaan tentang kondisi kulit.</p></div></div>
-    <div class="fc-step"><div class="fc-num">2</div><div class="fc-content"><h4>Evaluasi Rules</h4><p>"Ya" = skor penuh, "Kadang" = setengah skor ke kategori kulit terkait.</p></div></div>
-    <div class="fc-step"><div class="fc-num">3</div><div class="fc-content"><h4>Scoring & Matching</h4><p>Kategori skor tertinggi = jenis kulit dominan.</p></div></div>
-    <div class="fc-step"><div class="fc-num">4</div><div class="fc-content"><h4>Grading</h4><p>Rasio skor menentukan Grade 1–4.</p></div></div>
-    <div class="fc-step"><div class="fc-num">5</div><div class="fc-content"><h4>Rekomendasi</h4><p>Kombinasi jenis + grade → rutinitas personal.</p></div></div>
+    <p class="modal-intro">
+      <strong>Forward Chaining</strong> adalah metode inferensi dalam sistem pakar
+      yang bekerja dari <em>fakta menuju kesimpulan</em>. Sistem ini meniru cara
+      kerja seorang dermatologis dalam mendiagnosis kondisi kulit.
+    </p>
+    <ol class="fc-steps-list">
+      <li class="fc-step"><div class="fc-num">1</div><div class="fc-content"><h4>Pengumpulan Fakta</h4><p>Pengguna menjawab 15 pertanyaan tentang kondisi kulit mereka (Ya / Tidak / Kadang-kadang).</p></div></li>
+      <li class="fc-step"><div class="fc-num">2</div><div class="fc-content"><h4>Evaluasi Rules</h4><p>Setiap jawaban "Ya" menambahkan skor penuh ke kategori kulit terkait. Jawaban "Kadang-kadang" menambahkan setengah skor.</p></div></li>
+      <li class="fc-step"><div class="fc-num">3</div><div class="fc-content"><h4>Scoring &amp; Matching</h4><p>Kategori dengan skor tertinggi dipilih sebagai jenis kulit dominan. Jika semua skor rendah, sistem menyimpulkan kulit Normal.</p></div></li>
+      <li class="fc-step"><div class="fc-num">4</div><div class="fc-content"><h4>Grading</h4><p>Berdasarkan skor pemenang, sistem menentukan tingkat keparahan (Grade 1–4).</p></div></li>
+      <li class="fc-step"><div class="fc-num">5</div><div class="fc-content"><h4>Rekomendasi</h4><p>Berdasarkan kombinasi jenis kulit + grade, sistem memberikan rekomendasi skincare yang spesifik dan adaptif.</p></div></li>
+    </ol>
+    <p class="modal-footer-note">Dengan pendekatan ini, LUMÉRE mampu memberikan saran perawatan yang <strong>personal</strong> dan <strong>berbasis evidence</strong>, layaknya konsultasi awal dengan dermatologis.</p>
     <div style="margin-top:28px;text-align:center;">
       <button class="btn btn-primary" onclick="document.getElementById('fcModal').classList.remove('active')" style="min-width:160px;">Mengerti ✓</button>
     </div>
   </div>
 </div>
 
+<!-- jsPDF CDN -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
 <script src="shared.js"></script>
 <script>
   applyStoredTheme();
   document.getElementById('themeToggle').addEventListener('click', () => {
     setTheme(getTheme() === 'dark' ? 'light' : 'dark');
-    location.reload(); // Re-render chart with new colors
+    location.reload();
   });
-
   document.getElementById('fcModal').addEventListener('click', function(e) {
     if (e.target === this) this.classList.remove('active');
   });
@@ -290,18 +268,17 @@
     const gr = GRADE_INFO[grade];
     const recs = RECOMMENDATIONS[skinType][grade] || RECOMMENDATIONS[skinType][1];
 
-    const gradeColors = { 1: '#2D7A4F', 2: '#D4A017', 3: '#B87333', 4: '#C0435A' };
-    const gradeBg    = { 1: '#EDFAF4', 2: '#FFF8E7', 3: '#FFF3EA', 4: '#FFF0F3' };
+    const gradeColors = { 1: '#2D7A4F', 2: '#B87333', 3: '#D4607A', 4: '#8B1A2A' };
+    const gradeBg    = { 1: '#EDFAF4', 2: '#FFF3EA', 3: '#FDEEF2', 4: '#FFF0F3' };
     const gColor = gradeColors[grade];
     const gBg    = gradeBg[grade];
 
     const scoreColors = {
-      oily: '#D4A017', dry: '#B87333',
-      combination: '#6B4E71', sensitive: '#C0435A', normal: '#2D7A4F'
+      oily: '#D4607A', dry: '#E8899B',
+      combination: '#9B6080', sensitive: '#B04060', normal: '#6B3050'
     };
     const maxPossible = 9;
 
-    // Score bars HTML
     const scoreBarsHTML = Object.entries(scores).map(([k, v]) => {
       const isWinner = k === skinType;
       const pct = Math.min(100, Math.round((v / maxPossible) * 100));
@@ -318,7 +295,6 @@
         </div>`;
     }).join('');
 
-    // Recs HTML
     const recsHTML = recs.map((r, i) => `
       <div class="card rec-card" style="animation-delay:${0.3 + i * 0.08}s">
         <div class="rec-icon">${r.icon}</div>
@@ -327,7 +303,6 @@
         <div class="rec-desc">${r.desc}</div>
       </div>`).join('');
 
-    // Tips
     const tipsHTML = st.tips.map(t => `<li>${t}</li>`).join('');
 
     wrap.innerHTML = `
@@ -342,16 +317,13 @@
       </div>
 
       <div class="results-grid">
-        <!-- Chart -->
         <div class="card chart-card">
           <div class="card-label">Visualisasi Skor</div>
           <div class="card-title">Distribusi 5 Jenis Kulit</div>
           <div style="position:relative;height:300px;">
-            <canvas id="radarChart" role="img" aria-label="Radar chart skor 5 jenis kulit">Skor: Berminyak ${scores.oily}, Kering ${scores.dry}, Kombinasi ${scores.combination}, Sensitif ${scores.sensitive}, Normal ${scores.normal}.</canvas>
+            <canvas id="radarChart"></canvas>
           </div>
         </div>
-
-        <!-- Score bars + Description -->
         <div style="display:flex;flex-direction:column;gap:24px;">
           <div class="card desc-card">
             <div class="card-label">Skor Detail</div>
@@ -360,7 +332,6 @@
         </div>
       </div>
 
-      <!-- Description full width -->
       <div class="card desc-card" style="margin-bottom:32px;">
         <div class="card-label">Tentang Jenis Kulitmu</div>
         <div class="card-title">${st.icon} ${st.name}</div>
@@ -370,14 +341,12 @@
         <ul class="tips-list">${tipsHTML}</ul>
       </div>
 
-      <!-- Recommendations -->
       <div class="recs-section">
         <div class="card-label" style="margin-bottom:6px;">Rekomendasi Skincare</div>
-        <div class="card-title" style="font-family:'Playfair Display',serif;font-size:24px;color:var(--ink);margin-bottom:20px;">Rutinitas Personal Untukmu</div>
+        <div class="card-title" style="font-family:'Cormorant Garamond',serif;font-size:24px;color:var(--ink);margin-bottom:20px;">Rutinitas Personal Untukmu</div>
         <div class="recs-grid">${recsHTML}</div>
       </div>
 
-      <!-- Actions -->
       <div class="actions-row">
         <button class="btn btn-primary" onclick="saveResult_()" id="btnSave">💾 Simpan ke Riwayat</button>
         <button class="btn btn-secondary" onclick="exportPDF()">📄 Export PDF</button>
@@ -386,15 +355,13 @@
       </div>
     `;
 
-    // Render radar chart
     renderRadar(scores, skinType);
   }
 
   function renderRadar(scores, winner) {
     const isDark = getTheme() === 'dark';
-    const gridColor = isDark ? 'rgba(245,237,213,0.08)' : 'rgba(26,20,16,0.08)';
-    const textColor = isDark ? '#9E8E82' : '#6B5B4E';
-    const pointColor = isDark ? '#C9A84C' : '#9A7A2E';
+    const gridColor = isDark ? 'rgba(212,96,122,0.12)' : 'rgba(212,96,122,0.1)';
+    const textColor = isDark ? '#9A6878' : '#7A4F60';
 
     new Chart(document.getElementById('radarChart'), {
       type: 'radar',
@@ -403,11 +370,11 @@
         datasets: [{
           label: 'Skor Kulit',
           data: [scores.oily, scores.dry, scores.combination, scores.sensitive, scores.normal],
-          backgroundColor: 'rgba(201,168,76,0.15)',
-          borderColor: '#C9A84C',
+          backgroundColor: 'rgba(212,96,122,0.15)',
+          borderColor: '#D4607A',
           borderWidth: 2,
-          pointBackgroundColor: pointColor,
-          pointBorderColor: '#C9A84C',
+          pointBackgroundColor: '#B04060',
+          pointBorderColor: '#D4607A',
           pointRadius: 5,
           pointHoverRadius: 7,
         }]
@@ -418,20 +385,11 @@
         plugins: { legend: { display: false } },
         scales: {
           r: {
-            min: 0,
-            max: 9,
-            ticks: {
-              stepSize: 3,
-              color: textColor,
-              font: { size: 11 },
-              backdropColor: 'transparent',
-            },
+            min: 0, max: 9,
+            ticks: { stepSize: 3, color: textColor, font: { size: 11 }, backdropColor: 'transparent' },
             grid: { color: gridColor },
             angleLines: { color: gridColor },
-            pointLabels: {
-              color: textColor,
-              font: { size: 12, family: "'DM Sans', sans-serif" },
-            }
+            pointLabels: { color: textColor, font: { size: 12, family: "'DM Sans', sans-serif" } }
           }
         }
       }
@@ -461,86 +419,336 @@
     showToast('Hasil diagnosis berhasil disimpan! ✓', 'success');
   }
 
+  // ─── PDF Export (jsPDF) ───────────────────────────
   function exportPDF() {
     const raw = JSON.parse(localStorage.getItem('lumere_result') || '{}');
     if (!raw.skinType) return;
+
     const { skinType, grade, scores } = raw;
     const st = SKIN_TYPES[skinType];
     const gr = GRADE_INFO[grade];
     const recs = RECOMMENDATIONS[skinType][grade] || RECOMMENDATIONS[skinType][1];
     const name = userName || 'Pengguna LUMÉRE';
-    const date = new Date().toLocaleDateString('id-ID', { weekday:'long', day:'numeric', month:'long', year:'numeric' });
+    const dateStr = new Date().toLocaleDateString('id-ID', { weekday:'long', day:'numeric', month:'long', year:'numeric' });
 
-    const recsText = recs.map((r, i) =>
-      `${i+1}. ${r.step}: ${r.name}\n   ${r.desc}`
-    ).join('\n\n');
+    // Show loading
+    document.getElementById('pdfLoading').classList.add('active');
 
-    const scoreText = [
-      `Berminyak : ${scores.oily}`,
-      `Kering    : ${scores.dry}`,
-      `Kombinasi : ${scores.combination}`,
-      `Sensitif  : ${scores.sensitive}`,
-      `Normal    : ${scores.normal}`,
-    ].join('\n');
+    setTimeout(() => {
+      try {
+        const { jsPDF } = window.jspdf;
+        const doc = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4' });
 
-    const content = `
-═══════════════════════════════════════════════════════
-                L U M É R E
-           Sistem Pakar Kulit — Forward Chaining
-═══════════════════════════════════════════════════════
+        const pageW = 210;
+        const pageH = 297;
+        const margin = 20;
+        const contentW = pageW - margin * 2;
+        let y = 0;
 
-HASIL DIAGNOSIS KULIT
+        // ── Helper functions ──────────────────────────
+        function addPage() {
+          doc.addPage();
+          y = margin;
+        }
 
-Nama     : ${name}
-Tanggal  : ${date}
+        function checkY(needed) {
+          if (y + needed > pageH - margin) addPage();
+        }
 
-JENIS KULIT     : ${st.icon}  ${st.name} (${st.nameEn})
-TINGKAT GRADE   : Grade ${grade} — ${gr.label}
+        function drawRect(x, rectY, w, h, fillColor) {
+          doc.setFillColor(...fillColor);
+          doc.rect(x, rectY, w, h, 'F');
+        }
 
-───────────────────────────────────────────────────────
-DESKRIPSI
-───────────────────────────────────────────────────────
-${st.description}
+        function wrapText(text, maxWidth, fontSize) {
+          doc.setFontSize(fontSize);
+          return doc.splitTextToSize(text, maxWidth);
+        }
 
-${gr.desc}
+        // ── COVER / HEADER ────────────────────────────
+        // Pink gradient header block
+        drawRect(0, 0, pageW, 60, [212, 96, 122]);
+        drawRect(0, 50, pageW, 15, [176, 64, 96]); // darker bottom strip
 
-───────────────────────────────────────────────────────
-DISTRIBUSI SKOR (Sistem Forward Chaining)
-───────────────────────────────────────────────────────
-${scoreText}
+        // LUMERE title
+        doc.setTextColor(255, 255, 255);
+        doc.setFont('times', 'italic');
+        doc.setFontSize(36);
+        doc.text('LUMÉRE', pageW / 2, 28, { align: 'center' });
 
-───────────────────────────────────────────────────────
-REKOMENDASI RUTINITAS SKINCARE PERSONAL
-───────────────────────────────────────────────────────
-${recsText}
+        doc.setFont('helvetica', 'normal');
+        doc.setFontSize(10);
+        doc.setTextColor(255, 220, 230);
+        doc.text('SISTEM PAKAR KECANTIKAN · FORWARD CHAINING', pageW / 2, 40, { align: 'center' });
 
-───────────────────────────────────────────────────────
-TIPS PERAWATAN
-───────────────────────────────────────────────────────
-${st.tips.map((t, i) => `${i+1}. ${t}`).join('\n')}
+        doc.setFontSize(12);
+        doc.setTextColor(255, 255, 255);
+        doc.text('HASIL DIAGNOSIS KULIT', pageW / 2, 52, { align: 'center' });
 
-───────────────────────────────────────────────────────
-CATATAN
+        y = 72;
 
-Hasil ini dihasilkan oleh sistem pakar berbasis
-algoritma Forward Chaining dan bersifat indikatif.
-Untuk kondisi kulit yang serius, konsultasikan dengan
-dermatologis profesional.
+        // ── INFO BLOCK ────────────────────────────────
+        // Light pink info box
+        drawRect(margin, y, contentW, 28, [253, 238, 242]);
+        doc.setDrawColor(212, 96, 122);
+        doc.setLineWidth(0.5);
+        doc.rect(margin, y, contentW, 28);
 
-═══════════════════════════════════════════════════════
-© 2025 LUMÉRE — Sistem Pakar Forward Chaining
-Kelompok 3
-═══════════════════════════════════════════════════════
-    `.trim();
+        doc.setFont('helvetica', 'normal');
+        doc.setFontSize(10);
+        doc.setTextColor(122, 79, 96);
+        doc.text('Nama', margin + 6, y + 9);
+        doc.text('Tanggal', margin + 6, y + 19);
 
-    const blob = new Blob([content], { type: 'text/plain;charset=utf-8' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = `LUMERE_${skinType}_Grade${grade}_${Date.now()}.txt`;
-    a.click();
-    URL.revokeObjectURL(url);
-    showToast('Hasil diagnosis berhasil diexport! 📄', 'success');
+        doc.setFont('helvetica', 'bold');
+        doc.setTextColor(45, 26, 34);
+        doc.text(': ' + name, margin + 40, y + 9);
+        doc.text(': ' + dateStr, margin + 40, y + 19);
+
+        y += 36;
+
+        // ── JENIS KULIT RESULT CARD ───────────────────
+        drawRect(margin, y, contentW, 36, [212, 96, 122]);
+        doc.setTextColor(255, 255, 255);
+        doc.setFont('times', 'italic');
+        doc.setFontSize(22);
+        doc.text(st.name, margin + 8, y + 14);
+
+        doc.setFont('helvetica', 'normal');
+        doc.setFontSize(10);
+        doc.setTextColor(255, 220, 230);
+        doc.text(st.nameEn, margin + 8, y + 22);
+
+        // Grade badge on right
+        const gradeColors = { 1: [45, 122, 79], 2: [184, 115, 51], 3: [212, 96, 122], 4: [139, 26, 42] };
+        const gc = gradeColors[grade] || [212, 96, 122];
+        drawRect(pageW - margin - 48, y + 4, 44, 14, [255, 255, 255]);
+        doc.setTextColor(...gc);
+        doc.setFont('helvetica', 'bold');
+        doc.setFontSize(9);
+        doc.text(`Grade ${grade} — ${gr.label}`, pageW - margin - 26, y + 13, { align: 'center' });
+
+        doc.setTextColor(255, 255, 255);
+        doc.setFont('helvetica', 'normal');
+        doc.setFontSize(9);
+        doc.text(st.icon.replace(/\ufe0f/g, ''), margin + 8, y + 31); // emoji may not render but try
+
+        y += 44;
+
+        // ── DESKRIPSI ─────────────────────────────────
+        checkY(30);
+        doc.setFont('helvetica', 'bold');
+        doc.setFontSize(11);
+        doc.setTextColor(212, 96, 122);
+        doc.text('TENTANG JENIS KULITMU', margin, y);
+        y += 6;
+
+        // Pink underline
+        doc.setDrawColor(212, 96, 122);
+        doc.setLineWidth(0.8);
+        doc.line(margin, y, margin + 70, y);
+        y += 6;
+
+        const descLines = wrapText(st.description, contentW, 10);
+        doc.setFont('helvetica', 'normal');
+        doc.setTextColor(92, 51, 72);
+        doc.setFontSize(10);
+        descLines.forEach(line => {
+          checkY(6);
+          doc.text(line, margin, y);
+          y += 5.5;
+        });
+        y += 4;
+
+        // Grade desc box
+        checkY(20);
+        drawRect(margin, y, contentW, 2, [212, 96, 122]); // top border
+        drawRect(margin, y + 2, contentW, 16, [253, 238, 242]);
+        const gradeLines = wrapText(gr.desc, contentW - 10, 10);
+        doc.setTextColor(92, 51, 72);
+        doc.setFontSize(10);
+        gradeLines.forEach((line, i) => {
+          doc.text(line, margin + 5, y + 10 + (i * 5));
+        });
+        y += 22;
+
+        // ── DISTRIBUSI SKOR ───────────────────────────
+        checkY(60);
+        doc.setFont('helvetica', 'bold');
+        doc.setFontSize(11);
+        doc.setTextColor(212, 96, 122);
+        doc.text('DISTRIBUSI SKOR', margin, y);
+        y += 6;
+        doc.setDrawColor(212, 96, 122);
+        doc.line(margin, y, margin + 50, y);
+        y += 8;
+
+        const barColors = {
+          oily: [212, 96, 122],
+          dry: [232, 137, 155],
+          combination: [155, 96, 128],
+          sensitive: [176, 64, 96],
+          normal: [107, 48, 80]
+        };
+        const maxP = 9;
+
+        Object.entries(scores).forEach(([k, v]) => {
+          checkY(12);
+          const isW = k === skinType;
+          const skinName = SKIN_TYPES[k] ? SKIN_TYPES[k].name : k;
+          const pct = Math.min(1, v / maxP);
+          const barW = (contentW - 50) * pct;
+
+          // Label
+          doc.setFont('helvetica', isW ? 'bold' : 'normal');
+          doc.setFontSize(9);
+          doc.setTextColor(isW ? 212 : 122, isW ? 96 : 79, isW ? 122 : 96);
+          doc.text(skinName.replace('Kulit ', ''), margin, y + 5);
+
+          // Track bg
+          drawRect(margin + 40, y, contentW - 50, 7, [239, 224, 229]);
+
+          // Bar fill
+          if (barW > 0) drawRect(margin + 40, y, barW, 7, barColors[k] || [212, 96, 122]);
+
+          // Value
+          doc.setFont('helvetica', 'bold');
+          doc.setTextColor(45, 26, 34);
+          doc.text(v.toFixed(1), pageW - margin, y + 5.5, { align: 'right' });
+
+          if (isW) {
+            doc.setFont('helvetica', 'bold');
+            doc.setFontSize(7);
+            doc.setTextColor(176, 64, 96);
+            doc.text('★', margin + 37, y + 5.5);
+          }
+
+          y += 11;
+        });
+
+        y += 4;
+
+        // ── TIPS ─────────────────────────────────────
+        checkY(30);
+        doc.setFont('helvetica', 'bold');
+        doc.setFontSize(11);
+        doc.setTextColor(212, 96, 122);
+        doc.text('TIPS PERAWATAN', margin, y);
+        y += 6;
+        doc.line(margin, y, margin + 48, y);
+        y += 7;
+
+        st.tips.forEach(tip => {
+          const tipLines = wrapText('• ' + tip, contentW - 6, 10);
+          checkY(tipLines.length * 5.5 + 2);
+          doc.setFont('helvetica', 'normal');
+          doc.setFontSize(10);
+          doc.setTextColor(92, 51, 72);
+          tipLines.forEach(line => {
+            doc.text(line, margin + 3, y);
+            y += 5.5;
+          });
+          y += 2;
+        });
+
+        y += 4;
+
+        // ── REKOMENDASI SKINCARE ──────────────────────
+        checkY(20);
+        doc.setFont('helvetica', 'bold');
+        doc.setFontSize(11);
+        doc.setTextColor(212, 96, 122);
+        doc.text('REKOMENDASI RUTINITAS SKINCARE PERSONAL', margin, y);
+        y += 6;
+        doc.line(margin, y, margin + 95, y);
+        y += 8;
+
+        recs.forEach((r, i) => {
+          const descLines = wrapText(r.desc, contentW - 40, 9);
+          const cardH = Math.max(22, 8 + descLines.length * 4.5 + 4);
+          checkY(cardH + 4);
+
+          // Card background
+          drawRect(margin, y, contentW, cardH, [253, 244, 247]);
+          doc.setDrawColor(232, 190, 205);
+          doc.setLineWidth(0.3);
+          doc.rect(margin, y, contentW, cardH);
+
+          // Step number circle
+          drawRect(margin + 4, y + 4, 12, 12, [212, 96, 122]);
+          doc.setFont('helvetica', 'bold');
+          doc.setFontSize(9);
+          doc.setTextColor(255, 255, 255);
+          doc.text(String(i + 1), margin + 10, y + 12, { align: 'center' });
+
+          // Step label
+          doc.setFont('helvetica', 'bold');
+          doc.setFontSize(8);
+          doc.setTextColor(212, 96, 122);
+          doc.text(r.step.toUpperCase(), margin + 20, y + 8);
+
+          // Product name
+          doc.setFont('helvetica', 'bold');
+          doc.setFontSize(11);
+          doc.setTextColor(45, 26, 34);
+          doc.text(r.name, margin + 20, y + 15);
+
+          // Description
+          doc.setFont('helvetica', 'normal');
+          doc.setFontSize(9);
+          doc.setTextColor(122, 79, 96);
+          descLines.forEach((line, li) => {
+            doc.text(line, margin + 20, y + 21 + li * 4.5);
+          });
+
+          y += cardH + 4;
+        });
+
+        y += 6;
+
+        // ── FOOTER ────────────────────────────────────
+        // Draw on last page
+        const footerY = pageH - 16;
+        drawRect(0, footerY - 2, pageW, 20, [212, 96, 122]);
+        doc.setFont('times', 'italic');
+        doc.setFontSize(12);
+        doc.setTextColor(255, 255, 255);
+        doc.text('LUMÉRE', margin, footerY + 6);
+
+        doc.setFont('helvetica', 'normal');
+        doc.setFontSize(8);
+        doc.setTextColor(255, 220, 230);
+        doc.text('© 2025 Kelompok 3 · Sistem Pakar Forward Chaining', pageW / 2, footerY + 6, { align: 'center' });
+        doc.text('Hasil ini bersifat indikatif. Konsultasi dengan dermatologis untuk kondisi serius.', pageW / 2, footerY + 11, { align: 'center' });
+
+        // Add footer to all previous pages
+        const totalPages = doc.internal.getNumberOfPages();
+        for (let p = 1; p <= totalPages; p++) {
+          doc.setPage(p);
+          drawRect(0, footerY - 2, pageW, 20, [212, 96, 122]);
+          doc.setFont('times', 'italic');
+          doc.setFontSize(12);
+          doc.setTextColor(255, 255, 255);
+          doc.text('LUMÉRE', margin, footerY + 6);
+          doc.setFont('helvetica', 'normal');
+          doc.setFontSize(8);
+          doc.setTextColor(255, 220, 230);
+          doc.text('© 2025 Kelompok 3 · Sistem Pakar Forward Chaining', pageW / 2, footerY + 6, { align: 'center' });
+          doc.text(`Halaman ${p} dari ${totalPages}`, pageW - margin, footerY + 6, { align: 'right' });
+        }
+
+        // Save PDF
+        const filename = `LUMERE_${st.name.replace(/\s+/g,'_')}_Grade${grade}_${Date.now()}.pdf`;
+        doc.save(filename);
+        showToast('PDF berhasil didownload! 📄', 'success');
+
+      } catch(err) {
+        console.error(err);
+        showToast('Gagal membuat PDF. Coba lagi.', 'error');
+      } finally {
+        document.getElementById('pdfLoading').classList.remove('active');
+      }
+    }, 300);
   }
 </script>
 </body>

@@ -11,45 +11,32 @@
       padding: 48px 24px 100px;
       position: relative; z-index: 1;
     }
-
-    /* ─── Page Header ────────────────────────── */
     .page-header {
       display: flex; align-items: flex-end; justify-content: space-between;
       margin-bottom: 48px; flex-wrap: wrap; gap: 16px;
     }
     .page-eyebrow {
       font-size: 11px; letter-spacing: 3px;
-      text-transform: uppercase; color: var(--gold);
+      text-transform: uppercase; color: var(--rose);
       font-weight: 600; margin-bottom: 8px;
     }
     .page-title {
-      font-family: 'Playfair Display', serif;
-      font-size: clamp(28px, 5vw, 40px);
-      color: var(--ink);
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(28px, 5vw, 40px); color: var(--ink);
     }
     .history-count {
       font-size: 13px; color: var(--ink-muted);
       padding: 8px 16px;
-      background: var(--parchment);
+      background: var(--blush);
       border-radius: var(--radius-pill);
     }
 
-    /* ─── Empty state ────────────────────────── */
-    .empty-state {
-      text-align: center;
-      padding: 80px 20px;
-    }
+    .empty-state { text-align: center; padding: 80px 20px; }
     .empty-icon { font-size: 56px; margin-bottom: 20px; }
-    .empty-title {
-      font-family: 'Playfair Display', serif;
-      font-size: 26px; color: var(--ink);
-      margin-bottom: 10px;
-    }
+    .empty-title { font-family: 'Cormorant Garamond', serif; font-size: 26px; color: var(--ink); margin-bottom: 10px; }
     .empty-sub { font-size: 14px; color: var(--ink-muted); margin-bottom: 28px; }
 
-    /* ─── History cards ──────────────────────── */
     .history-list { display: flex; flex-direction: column; gap: 20px; }
-
     .history-card {
       padding: 28px 32px;
       display: grid;
@@ -57,58 +44,25 @@
       align-items: center;
       gap: 20px;
       transition: all var(--transition-fast);
-      cursor: default;
     }
-    .history-card:hover {
-      box-shadow: var(--shadow-md);
-      transform: translateY(-2px);
-    }
+    .history-card:hover { box-shadow: var(--shadow-md); transform: translateY(-2px); }
 
     .h-icon {
       width: 52px; height: 52px;
       border-radius: var(--radius-md);
-      background: var(--gold-pale);
+      background: var(--rose-pale);
       display: flex; align-items: center; justify-content: center;
-      font-size: 26px;
-      flex-shrink: 0;
+      font-size: 26px; flex-shrink: 0;
     }
-
-    .h-info {}
-    .h-name {
-      font-size: 12px; color: var(--ink-muted);
-      margin-bottom: 2px;
-    }
-    .h-type {
-      font-family: 'Playfair Display', serif;
-      font-size: 20px; color: var(--ink);
-      margin-bottom: 4px;
-    }
-    .h-date {
-      font-size: 12px; color: var(--ink-muted);
-    }
+    .h-type { font-family: 'Cormorant Garamond', serif; font-size: 20px; color: var(--ink); margin-bottom: 4px; }
+    .h-name { font-size: 12px; color: var(--ink-muted); margin-bottom: 2px; }
+    .h-date { font-size: 12px; color: var(--ink-muted); }
     .h-meta { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin-top: 8px; }
-    .h-grade-badge {
-      font-size: 11px; font-weight: 600;
-      padding: 3px 12px;
-      border-radius: var(--radius-pill);
-      border: 1px solid;
-    }
-    .h-rec {
-      font-size: 11px; color: var(--ink-muted);
-      font-style: italic;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-      max-width: 280px;
-    }
+    .h-grade-badge { font-size: 11px; font-weight: 600; padding: 3px 12px; border-radius: var(--radius-pill); border: 1px solid; }
 
-    .h-actions {
-      display: flex; flex-direction: column; gap: 8px;
-      flex-shrink: 0;
-    }
+    .h-actions { display: flex; flex-direction: column; gap: 8px; flex-shrink: 0; }
     .btn-sm {
-      padding: 8px 18px;
-      font-size: 12px;
+      padding: 8px 18px; font-size: 12px;
       border-radius: var(--radius-pill);
       border: 1px solid var(--parchment);
       background: transparent;
@@ -118,62 +72,41 @@
       transition: all var(--transition-fast);
       white-space: nowrap;
     }
-    .btn-sm:hover { border-color: var(--gold); color: var(--gold-dark); background: var(--gold-pale); }
-    .btn-sm-danger:hover { border-color: #C0435A; color: #C0435A; background: #FFF0F3; }
+    .btn-sm:hover { border-color: var(--rose); color: var(--rose-deep); background: var(--rose-pale); }
+    .btn-sm-danger:hover { border-color: #B04060; color: #B04060; background: #FDEEF2; }
 
-    /* ─── Score mini bars ─────────────────────── */
     .score-mini { display: flex; flex-direction: column; gap: 5px; margin-top: 8px; }
-    .score-mini-row {
-      display: flex; align-items: center; gap: 8px;
-    }
-    .score-mini-label {
-      width: 80px; font-size: 11px; color: var(--ink-muted);
-      white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
-    }
-    .score-mini-track {
-      flex: 1; height: 4px;
-      background: var(--parchment);
-      border-radius: var(--radius-pill);
-    }
-    .score-mini-bar {
-      height: 100%; border-radius: var(--radius-pill);
-    }
+    .score-mini-row { display: flex; align-items: center; gap: 8px; }
+    .score-mini-label { width: 80px; font-size: 11px; color: var(--ink-muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .score-mini-track { flex: 1; height: 4px; background: var(--blush-deep); border-radius: var(--radius-pill); }
+    .score-mini-bar { height: 100%; border-radius: var(--radius-pill); }
 
-    /* ─── Detail modal ───────────────────────── */
+    /* Modal */
     .modal-overlay {
       display: none; position: fixed; inset: 0;
-      background: rgba(26,20,16,0.6);
+      background: rgba(45,26,34,0.6);
       backdrop-filter: blur(8px);
       z-index: 800;
-      align-items: center; justify-content: center;
-      padding: 20px;
+      align-items: center; justify-content: center; padding: 20px;
     }
     .modal-overlay.active { display: flex; animation: fadeIn 0.25s ease; }
     .modal {
-      background: var(--white);
-      border-radius: var(--radius-lg);
-      padding: 44px 40px;
-      max-width: 600px; width: 100%;
+      background: var(--white); border-radius: var(--radius-lg);
+      padding: 44px 40px; max-width: 600px; width: 100%;
       max-height: 85vh; overflow-y: auto;
-      box-shadow: var(--shadow-lg);
-      animation: fadeUp 0.3s ease;
+      box-shadow: var(--shadow-lg); animation: fadeUp 0.3s ease;
     }
-    .modal h2 {
-      font-family: 'Playfair Display', serif;
-      font-size: 28px; color: var(--ink);
-      margin-bottom: 4px;
-    }
+    .modal h2 { font-family: 'Cormorant Garamond', serif; font-size: 28px; color: var(--ink); margin-bottom: 4px; }
     .modal-meta { font-size: 13px; color: var(--ink-muted); margin-bottom: 28px; }
     .modal-section-title {
       font-size: 11px; letter-spacing: 2px;
-      text-transform: uppercase; color: var(--gold);
+      text-transform: uppercase; color: var(--rose);
       font-weight: 600; margin-bottom: 12px; margin-top: 24px;
     }
     .modal-rec { padding: 12px 0; border-bottom: 1px solid var(--parchment); font-size: 14px; color: var(--ink-soft); }
     .modal-rec:last-child { border-bottom: none; }
     .modal-rec strong { color: var(--ink); }
 
-    /* ─── Clear all ──────────────────────────── */
     .clear-btn {
       font-size: 12px; color: var(--ink-muted);
       background: none; border: none;
@@ -181,18 +114,16 @@
       padding: 6px 12px; border-radius: var(--radius-sm);
       transition: all var(--transition-fast);
     }
-    .clear-btn:hover { color: #C0435A; background: #FFF0F3; }
+    .clear-btn:hover { color: #B04060; background: #FDEEF2; }
 
     @media (max-width: 600px) {
       .history-card { grid-template-columns: auto 1fr; }
       .h-actions { flex-direction: row; grid-column: 1/-1; }
       .modal { padding: 28px 20px; }
-      .h-rec { max-width: 100%; white-space: normal; }
     }
   </style>
 </head>
 <body>
-
 <div class="bg-ornament" aria-hidden="true"></div>
 
 <nav class="nav">
@@ -219,33 +150,29 @@
       <button class="clear-btn" onclick="clearAll()">🗑 Hapus Semua</button>
     </div>
   </div>
-
   <div id="historyArea"></div>
 </div>
 
-<!-- Detail Modal -->
 <div class="modal-overlay" id="detailModal">
   <div class="modal" id="detailContent"></div>
 </div>
 
 <div class="lumere-toast" id="lumere-toast"></div>
-
 <script src="shared.js"></script>
 <script>
   applyStoredTheme();
   document.getElementById('themeToggle').addEventListener('click', () => {
     setTheme(getTheme() === 'dark' ? 'light' : 'dark');
   });
-
   document.getElementById('detailModal').addEventListener('click', function(e) {
     if (e.target === this) this.classList.remove('active');
   });
 
-  const gradeColors = { 1: '#2D7A4F', 2: '#D4A017', 3: '#B87333', 4: '#C0435A' };
-  const gradeBg    = { 1: '#EDFAF4', 2: '#FFF8E7', 3: '#FFF3EA', 4: '#FFF0F3' };
+  const gradeColors = { 1: '#2D7A4F', 2: '#B87333', 3: '#D4607A', 4: '#8B1A2A' };
+  const gradeBg    = { 1: '#EDFAF4', 2: '#FFF3EA', 3: '#FDEEF2', 4: '#FFF0F3' };
   const scoreColors = {
-    oily: '#D4A017', dry: '#B87333',
-    combination: '#6B4E71', sensitive: '#C0435A', normal: '#2D7A4F'
+    oily: '#D4607A', dry: '#E8899B',
+    combination: '#9B6080', sensitive: '#B04060', normal: '#6B3050'
   };
 
   function renderHistory() {
@@ -256,7 +183,7 @@
     if (hist.length === 0) {
       area.innerHTML = `
         <div class="empty-state">
-          <div class="empty-icon">📋</div>
+          <div class="empty-icon">🌸</div>
           <h2 class="empty-title">Belum Ada Riwayat</h2>
           <p class="empty-sub">Mulai diagnosis kulitmu dan simpan hasilnya untuk melihat perkembangan.</p>
           <button class="btn btn-primary" onclick="navigateTo('quiz.html')">Mulai Diagnosis →</button>
@@ -265,8 +192,8 @@
     }
 
     const cards = hist.map((entry, idx) => {
-      const gColor = gradeColors[entry.grade] || '#6B5B4E';
-      const gBg    = gradeBg[entry.grade]    || '#F5F0F0';
+      const gColor = gradeColors[entry.grade] || '#7A4F60';
+      const gBg    = gradeBg[entry.grade]    || '#F5EEF1';
       const scores = entry.scores || {};
       const maxPossible = 9;
 
@@ -274,7 +201,7 @@
         const pct = Math.min(100, Math.round((v / maxPossible) * 100));
         return `<div class="score-mini-row">
           <div class="score-mini-label">${SKIN_TYPES[k] ? SKIN_TYPES[k].name.replace('Kulit ','') : k}</div>
-          <div class="score-mini-track"><div class="score-mini-bar" style="width:${pct}%;background:${scoreColors[k]||'#C9A84C'}"></div></div>
+          <div class="score-mini-track"><div class="score-mini-bar" style="width:${pct}%;background:${scoreColors[k]||'#D4607A'}"></div></div>
         </div>`;
       }).join('');
 
@@ -307,8 +234,8 @@
     const st = SKIN_TYPES[entry.skinType] || {};
     const gr = GRADE_INFO[entry.grade] || {};
     const recs = (RECOMMENDATIONS[entry.skinType] && RECOMMENDATIONS[entry.skinType][entry.grade]) || [];
-    const gColor = gradeColors[entry.grade] || '#6B5B4E';
-    const gBg    = gradeBg[entry.grade]    || '#F5F0F0';
+    const gColor = gradeColors[entry.grade] || '#7A4F60';
+    const gBg    = gradeBg[entry.grade]    || '#F5EEF1';
     const scores = entry.scores || {};
 
     const recsHTML = recs.map(r => `
@@ -322,9 +249,9 @@
       const isW = k === entry.skinType;
       return `<div style="display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid var(--parchment);">
         <span style="font-size:16px;">${SKIN_TYPES[k] ? SKIN_TYPES[k].icon : ''}</span>
-        <span style="flex:1;font-size:14px;color:${isW ? 'var(--gold-dark)' : 'var(--ink-soft)'};font-weight:${isW ? '600' : '400'}">${sName}</span>
-        <span style="font-size:13px;font-weight:600;color:${isW ? 'var(--gold-dark)' : 'var(--ink-muted)'}">${v.toFixed ? v.toFixed(1) : v}</span>
-        ${isW ? '<span style="font-size:11px;background:var(--gold-pale);color:var(--gold-dark);padding:2px 10px;border-radius:999px;font-weight:600;">Dominan</span>' : ''}
+        <span style="flex:1;font-size:14px;color:${isW ? 'var(--rose-deep)' : 'var(--ink-soft)'};font-weight:${isW ? '600' : '400'}">${sName}</span>
+        <span style="font-size:13px;font-weight:600;color:${isW ? 'var(--rose-deep)' : 'var(--ink-muted)'}">${v.toFixed ? v.toFixed(1) : v}</span>
+        ${isW ? '<span style="font-size:11px;background:var(--rose-pale);color:var(--rose-deep);padding:2px 10px;border-radius:999px;font-weight:600;">Dominan</span>' : ''}
       </div>`;
     }).join('');
 
@@ -339,69 +266,15 @@
       <span style="display:inline-block;padding:8px 20px;border-radius:999px;font-size:13px;font-weight:600;color:${gColor};background:${gBg};border:1px solid ${gColor};margin-bottom:24px;">
         Grade ${entry.grade} — ${entry.gradeLabel}
       </span>
-
       <div class="modal-section-title">Distribusi Skor</div>
       <div>${scoresHTML}</div>
-
       <div class="modal-section-title">Rekomendasi Skincare</div>
       <div>${recsHTML}</div>
-
       <div style="margin-top:28px;display:flex;gap:10px;flex-wrap:wrap;">
         <button class="btn btn-primary" onclick="document.getElementById('detailModal').classList.remove('active')" style="flex:1;min-width:120px;">Tutup</button>
-        <button class="btn btn-secondary" onclick="exportDetailPDF(${idx})" style="flex:1;min-width:120px;">📄 Export</button>
       </div>
     `;
     document.getElementById('detailModal').classList.add('active');
-  }
-
-  function exportDetailPDF(idx) {
-    const hist = getHistory();
-    const entry = hist[idx];
-    if (!entry) return;
-    const st = SKIN_TYPES[entry.skinType] || {};
-    const recs = (RECOMMENDATIONS[entry.skinType] && RECOMMENDATIONS[entry.skinType][entry.grade]) || [];
-    const recsText = recs.map((r,i) => `${i+1}. ${r.step}: ${r.name}\n   ${r.desc}`).join('\n\n');
-    const scores = entry.scores || {};
-    const scoreText = Object.entries(scores).map(([k,v]) => {
-      const n = SKIN_TYPES[k] ? SKIN_TYPES[k].name : k;
-      return `${n.padEnd(18)}: ${typeof v === 'number' ? v.toFixed(1) : v}`;
-    }).join('\n');
-
-    const content = `
-═══════════════════════════════════════════════════════
-                L U M É R E
-           Sistem Pakar Kulit — Forward Chaining
-═══════════════════════════════════════════════════════
-
-Nama     : ${entry.name}
-Tanggal  : ${entry.date}
-
-JENIS KULIT   : ${st.icon || ''} ${entry.skinTypeName}
-GRADE         : Grade ${entry.grade} — ${entry.gradeLabel}
-
-───────────────────────────────────────────────────────
-DISTRIBUSI SKOR
-───────────────────────────────────────────────────────
-${scoreText}
-
-───────────────────────────────────────────────────────
-REKOMENDASI SKINCARE
-───────────────────────────────────────────────────────
-${recsText}
-
-═══════════════════════════════════════════════════════
-© 2025 LUMÉRE · Kelompok 3
-═══════════════════════════════════════════════════════
-    `.trim();
-
-    const blob = new Blob([content], { type: 'text/plain;charset=utf-8' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = `LUMERE_${entry.skinType}_${entry.id}.txt`;
-    a.click();
-    URL.revokeObjectURL(url);
-    showToast('Export berhasil! 📄', 'success');
   }
 
   function deleteEntry(idx) {
