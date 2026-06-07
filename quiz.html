@@ -186,7 +186,7 @@
     document.getElementById('btnNext').textContent = currentQ === 14 ? 'Lihat Hasil ✨' : 'Lanjut →';
 
     const sel = answers[currentQ];
-    const icons = { ya: '✅', kadang: '🤔', tidak: '❌' };
+    const icons = { ya:'', kadang: '', tidak: '' };
     const labels = { ya: 'Ya, selalu', kadang: 'Kadang-kadang', tidak: 'Tidak' };
 
     document.getElementById('questionArea').innerHTML = `
