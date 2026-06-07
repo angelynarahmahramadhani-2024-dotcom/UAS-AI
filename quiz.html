@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="id" data-theme="light">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>LUMÉRE — Diagnosis Kulit</title>
+  <link rel="stylesheet" href="style.css"/>
+  <style>
+    .quiz-wrap {
+      max-width: 680px; margin: 0 auto;
+      padding: 48px 24px 80px;
+      position: relative; z-index: 1;
+    }
+
+    /* ─── Header ─────────────────────────────── */
+    .quiz-header {
+      display: flex; align-items: center; justify-content: space-between;
+      margin-bottom: 40px;
+    }
+    .quiz-step-label {
+      font-size: 12px; letter-spacing: 2px;
+      text-transform: uppercase; color: var(--ink-muted);
+      font-weight: 500;
+    }
+    .quiz-step-count {
+      font-size: 13px; color: var(--gold);
+      font-weight: 600;
+    }
+
+    /* ─── Progress ───────────────────────────── */
+    .progress-wrap { margin-bottom: 48px; }
+    .progress-numbers {
+      display: flex; justify-content: space-between;
+      margin-bottom: 10px;
+    }
+    .progress-numbers span {
+      font-size: 12px; color: var(--ink-muted);
+    }
+    .progress-numbers strong {
+      font-size: 14px; font-weight: 600; color: var(--ink);
+    }
+
+    /* ─── Question Card ──────────────────────── */
+    .question-card {
+      padding: 44px 40px;
+      margin-bottom: 32px;
+      animation: fadeUp 0.4s ease;
+    }
+    .q-badge {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 5px 14px;
+      background: var(--gold-pale);
+      color: var(--gold-dark);
+      border-radius: var(--radius-pill);
+      font-size: 11px; font-weight: 600;
+      letter-spacing: 1.5px; text-transform: uppercase;
+      margin-bottom: 20px;
+    }
+    .q-text {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(18px, 3vw, 22px);
+      color: var(--ink);
+      line-height: 1.5;
+      margin-bottom: 32px;
+    }
+
+    /* ─── Answer Options ─────────────────────── */
+    .answers { display: flex; flex-direction: column; gap: 10px; }
+    .answer-btn {
+      width: 100%;
+      padding: 17px 24px;
+      background: var(--cream);
+      border: 1.5px solid var(--parchment);
+      border-radius: var(--radius-md);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 15px; font-weight: 500;
+      color: var(--ink-soft);
+      cursor: pointer;
+      transition: all var(--transition-fast);
+      text-align: left;
+      display: flex; align-items: center; gap: 14px;
+    }
+    .answer-btn:hover {
+      border-color: var(--gold);
+      background: var(--gold-pale);
+      color: var(--ink);
+      transform: translateX(4px);
+    }
+    .answer-btn.selected {
+      border-color: var(--gold);
+      background: var(--gold-pale);
+      color: var(--gold-dark);
+      box-shadow: 0 0 0 3px rgba(201,168,76,0.15);
+    }
+    .answer-btn.selected::after {
+      content: '✓';
+      margin-left: auto;
+      font-size: 16px;
+      color: var(--gold);
+    }
+    .answer-icon { font-size: 20px; flex-shrink: 0; }
+
+    /* ─── Navigation ─────────────────────────── */
+    .quiz-nav {
+      display: flex; align-items: center; justify-content: space-between;
+      gap: 12px;
+    }
+
+    /* ─── Skip hint ──────────────────────────── */
+    .skip-hint {
+      text-align: center;
+      margin-top: 16px;
+      font-size: 12px; color: var(--ink-muted);
+    }
+
+    /* ─── Question dots ──────────────────────── */
+    .q-dots {
+      display: flex; flex-wrap: wrap; gap: 5px;
+      justify-content: center;
+      margin-bottom: 40px;
+    }
+    .q-dot {
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      background: var(--parchment);
+      transition: all var(--transition-fast);
+    }
+    .q-dot.answered { background: var(--gold); }
+    .q-dot.current  { background: var(--gold-dark); transform: scale(1.3); }
+
+    @media (max-width: 600px) {
+      .question-card { padding: 32px 24px; }
+      .quiz-wrap { padding: 32px 16px 60px; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="bg-ornament" aria-hidden="true"></div>
+
+<nav class="nav">
+  <a class="nav-logo" onclick="navigateTo('index.html')">LUMÉRE<span>®</span></a>
+  <div class="nav-center">
+    <span class="nav-link" onclick="navigateTo('index.html')">Beranda</span>
+    <span class="nav-link active">Diagnosis</span>
+    <span class="nav-link" onclick="navigateTo('history.html')">Riwayat</span>
+  </div>
+  <div class="nav-right">
+    <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark mode"></button>
+    <a class="btn btn-nav" onclick="navigateTo('history.html')">📋 Riwayat</a>
+  </div>
+</nav>
+
+<div class="quiz-wrap">
+  <!-- Progress section -->
+  <div class="progress-wrap">
+    <div class="progress-numbers">
+      <span>Pertanyaan <strong id="qNum">1</strong> dari 15</span>
+      <span id="qPct" class="quiz-step-count">0%</span>
+    </div>
+    <div class="progress-track">
+      <div class="progress-fill" id="progressFill" style="width:0%"></div>
+    </div>
+  </div>
+
+  <!-- Question dots -->
+  <div class="q-dots" id="qDots"></div>
+
+  <!-- Question area -->
+  <div id="questionArea"></div>
+
+  <!-- Nav buttons -->
+  <div class="quiz-nav">
+    <button class="btn btn-secondary" id="btnPrev" onclick="prevQ()" disabled>← Kembali</button>
+    <button class="btn btn-primary" id="btnNext" onclick="nextQ()">Lanjut →</button>
+  </div>
+  <p class="skip-hint">Tekan Enter atau ketuk "Lanjut" setelah memilih jawaban</p>
+</div>
+
+<div class="lumere-toast" id="lumere-toast"></div>
+
+<script src="shared.js"></script>
+<script>
+  applyStoredTheme();
+  document.getElementById('themeToggle').addEventListener('click', () => {
+    setTheme(getTheme() === 'dark' ? 'light' : 'dark');
+  });
+
+  let currentQ = 0;
+  const answers = new Array(15).fill(null);
+
+  // Init dots
+  function initDots() {
+    const container = document.getElementById('qDots');
+    container.innerHTML = '';
+    for (let i = 0; i < 15; i++) {
+      const dot = document.createElement('div');
+      dot.className = 'q-dot';
+      dot.id = 'dot-' + i;
+      container.appendChild(dot);
+    }
+  }
+
+  function updateDots() {
+    for (let i = 0; i < 15; i++) {
+      const dot = document.getElementById('dot-' + i);
+      dot.className = 'q-dot';
+      if (i === currentQ) dot.classList.add('current');
+      else if (answers[i] !== null) dot.classList.add('answered');
+    }
+  }
+
+  function renderQ() {
+    const q = QUESTIONS[currentQ];
+    const pct = Math.round((currentQ / 15) * 100);
+    document.getElementById('progressFill').style.width = pct + '%';
+    document.getElementById('qNum').textContent = currentQ + 1;
+    document.getElementById('qPct').textContent = pct + '%';
+    document.getElementById('btnPrev').disabled = currentQ === 0;
+    document.getElementById('btnNext').textContent = currentQ === 14 ? 'Lihat Hasil ✨' : 'Lanjut →';
+
+    const sel = answers[currentQ];
+    const icons = { ya: '✅', kadang: '🤔', tidak: '❌' };
+    const labels = { ya: 'Ya, selalu', kadang: 'Kadang-kadang', tidak: 'Tidak' };
+
+    document.getElementById('questionArea').innerHTML = `
+      <div class="card question-card">
+        <div class="q-badge">Pertanyaan ${currentQ + 1} / 15</div>
+        <p class="q-text">${q.text}</p>
+        <div class="answers">
+          ${['ya','kadang','tidak'].map(opt => `
+            <button class="answer-btn${sel === opt ? ' selected' : ''}"
+              onclick="selectAnswer('${opt}')" id="ans-${opt}">
+              <span class="answer-icon">${icons[opt]}</span>
+              ${labels[opt]}
+            </button>
+          `).join('')}
+        </div>
+      </div>
+    `;
+    updateDots();
+  }
+
+  function selectAnswer(opt) {
+    answers[currentQ] = opt;
+    document.querySelectorAll('.answer-btn').forEach(b => b.classList.remove('selected'));
+    const btn = document.getElementById('ans-' + opt);
+    if (btn) btn.classList.add('selected');
+    updateDots();
+
+    // Auto-advance after short delay
+    clearTimeout(window._autoNext);
+    window._autoNext = setTimeout(() => {
+      if (currentQ < 14) { currentQ++; renderQ(); }
+    }, 500);
+  }
+
+  function nextQ() {
+    clearTimeout(window._autoNext);
+    if (answers[currentQ] === null) {
+      showToast('Pilih jawaban terlebih dahulu 🌸', 'error');
+      return;
+    }
+    if (currentQ < 14) { currentQ++; renderQ(); }
+    else finish();
+  }
+
+  function prevQ() {
+    clearTimeout(window._autoNext);
+    if (currentQ > 0) { currentQ--; renderQ(); }
+  }
+
+  function finish() {
+    const result = processAnswers(answers);
+    localStorage.setItem('lumere_result', JSON.stringify({ ...result, answers }));
+    navigateTo('results.html');
+  }
+
+  document.addEventListener('keydown', e => {
+    if (e.key === '1') selectAnswer('ya');
+    else if (e.key === '2') selectAnswer('kadang');
+    else if (e.key === '3') selectAnswer('tidak');
+    else if (e.key === 'Enter') nextQ();
+    else if (e.key === 'ArrowLeft') prevQ();
+  });
+
+  initDots();
+  renderQ();
+</script>
+</body>
+</html>

@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="id" data-theme="light">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>LUMÉRE — Kenali Kulitmu</title>
+  <meta name="description" content="Sistem diagnosis kulit berbasis AI dengan Forward Chaining. Temukan jenis kulit dan rutinitas skincare terbaik untukmu."/>
+  <link rel="stylesheet" href="style.css"/>
+  <style>
+    /* ─── Intro / Onboarding ────────────────────── */
+    #intro-screen {
+      position: fixed; inset: 0;
+      background: var(--ink);
+      z-index: 1000;
+      display: flex; align-items: center; justify-content: center;
+      flex-direction: column; gap: 24px;
+      animation: introExit 0.7s 2.8s cubic-bezier(0.4,0,0.2,1) both;
+    }
+    @keyframes introExit {
+      to { opacity: 0; transform: scale(0.96); pointer-events: none; visibility: hidden; }
+    }
+    .intro-logo {
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+      font-size: clamp(48px, 10vw, 80px);
+      color: var(--gold);
+      letter-spacing: 6px;
+      animation: introLogoIn 0.8s 0.2s cubic-bezier(0.4,0,0.2,1) both;
+    }
+    @keyframes introLogoIn {
+      from { opacity: 0; transform: scale(0.9) translateY(20px); letter-spacing: 16px; }
+      to   { opacity: 1; transform: scale(1) translateY(0); letter-spacing: 6px; }
+    }
+    .intro-line {
+      width: 0; height: 1px;
+      background: linear-gradient(90deg, transparent, var(--gold), transparent);
+      animation: introLineIn 0.8s 0.9s cubic-bezier(0.4,0,0.2,1) both;
+    }
+    @keyframes introLineIn {
+      to { width: 200px; }
+    }
+    .intro-tagline {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 13px; letter-spacing: 4px;
+      text-transform: uppercase;
+      color: var(--gold-light);
+      opacity: 0;
+      animation: fadeIn 0.6s 1.4s ease both;
+    }
+    .intro-dots {
+      display: flex; gap: 8px;
+      opacity: 0;
+      animation: fadeIn 0.4s 2s ease both;
+    }
+    .intro-dot {
+      width: 5px; height: 5px;
+      background: var(--gold);
+      border-radius: 50%;
+      animation: introDotPulse 0.6s infinite alternate;
+    }
+    .intro-dot:nth-child(2) { animation-delay: 0.2s; background: var(--gold-light); }
+    .intro-dot:nth-child(3) { animation-delay: 0.4s; background: rgba(201,168,76,0.4); }
+    @keyframes introDotPulse {
+      from { transform: scale(0.7); opacity: 0.5; }
+      to   { transform: scale(1.3); opacity: 1; }
+    }
+
+    /* ─── Hero ──────────────────────────────────── */
+    .hero {
+      min-height: calc(100vh - var(--nav-h));
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      padding: 60px 20px 80px;
+      position: relative; z-index: 1;
+      text-align: center;
+      gap: 0;
+    }
+
+    .hero-eyebrow {
+      font-size: 11px; letter-spacing: 4px; text-transform: uppercase;
+      color: var(--gold);
+      font-weight: 600;
+      margin-bottom: 20px;
+      animation: fadeUp 0.7s 3.2s both;
+    }
+    .hero-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(48px, 8vw, 88px);
+      font-weight: 400;
+      line-height: 1.1;
+      letter-spacing: -1px;
+      color: var(--ink);
+      margin-bottom: 8px;
+      animation: fadeUp 0.7s 3.35s both;
+    }
+    .hero-title em {
+      font-style: italic;
+      color: var(--gold);
+    }
+    .hero-subtitle {
+      font-family: 'DM Serif Display', serif;
+      font-style: italic;
+      font-size: clamp(18px, 3vw, 26px);
+      color: var(--ink-soft);
+      margin-bottom: 48px;
+      animation: fadeUp 0.7s 3.5s both;
+    }
+
+    /* Name input + CTA */
+    .hero-form {
+      display: flex; flex-direction: column; align-items: center; gap: 16px;
+      width: 100%; max-width: 440px;
+      animation: fadeUp 0.7s 3.65s both;
+    }
+    .name-input-wrap {
+      position: relative; width: 100%;
+    }
+    .name-input {
+      width: 100%;
+      padding: 18px 56px 18px 24px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 16px;
+      color: var(--ink);
+      background: var(--white);
+      border: 1.5px solid var(--parchment);
+      border-radius: var(--radius-pill);
+      outline: none;
+      transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+      text-align: center;
+      box-shadow: var(--shadow-sm);
+    }
+    .name-input::placeholder { color: var(--ink-muted); font-style: italic; }
+    .name-input:focus {
+      border-color: var(--gold);
+      box-shadow: 0 0 0 4px rgba(201,168,76,0.12);
+    }
+    .name-hint {
+      font-size: 12px; color: var(--ink-muted);
+      font-style: italic;
+      animation: fadeUp 0.7s 3.8s both;
+    }
+
+    /* ─── Features ──────────────────────────────── */
+    .features {
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+      max-width: 860px; width: 100%;
+      margin: 80px auto 0;
+      padding: 0 20px;
+      position: relative; z-index: 1;
+    }
+    .feature {
+      padding: 36px 24px;
+      text-align: center;
+      border-radius: var(--radius-lg);
+      animation: fadeUp 0.6s both;
+    }
+    .feature:nth-child(1) { animation-delay: 3.9s; }
+    .feature:nth-child(2) { animation-delay: 4.05s; }
+    .feature:nth-child(3) { animation-delay: 4.2s; }
+    .feature-icon {
+      width: 56px; height: 56px;
+      margin: 0 auto 16px;
+      background: var(--gold-pale);
+      border-radius: var(--radius-md);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 24px;
+    }
+    .feature h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 17px;
+      color: var(--ink);
+      margin-bottom: 8px;
+    }
+    .feature p { font-size: 13px; color: var(--ink-muted); line-height: 1.6; }
+
+    /* ─── Skin Types Preview ─────────────────────── */
+    .skin-types-section {
+      max-width: 900px; margin: 0 auto;
+      padding: 0 24px 100px;
+      position: relative; z-index: 1;
+    }
+    .section-label {
+      text-align: center;
+      font-size: 11px; letter-spacing: 4px; text-transform: uppercase;
+      color: var(--gold); font-weight: 600;
+      margin-bottom: 12px;
+    }
+    .section-heading {
+      text-align: center;
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(28px, 5vw, 40px);
+      color: var(--ink);
+      margin-bottom: 48px;
+    }
+    .skin-pills {
+      display: flex; flex-wrap: wrap; justify-content: center; gap: 12px;
+    }
+    .skin-pill {
+      padding: 14px 24px;
+      border-radius: var(--radius-pill);
+      background: var(--white);
+      border: 1px solid var(--parchment);
+      display: flex; align-items: center; gap: 10px;
+      cursor: pointer;
+      transition: all var(--transition-fast);
+      box-shadow: var(--shadow-sm);
+    }
+    .skin-pill:hover {
+      border-color: var(--gold);
+      background: var(--gold-pale);
+      transform: translateY(-3px);
+      box-shadow: var(--shadow-gold);
+    }
+    .skin-pill-icon { font-size: 20px; }
+    .skin-pill-name { font-size: 14px; font-weight: 500; color: var(--ink-soft); }
+
+    /* ─── FC Modal ──────────────────────────────── */
+    .modal-overlay {
+      display: none; position: fixed; inset: 0;
+      background: rgba(26,20,16,0.6);
+      backdrop-filter: blur(8px);
+      z-index: 800;
+      align-items: center; justify-content: center;
+      padding: 20px;
+    }
+    .modal-overlay.active { display: flex; animation: fadeIn 0.25s ease; }
+    .modal {
+      background: var(--white);
+      border-radius: var(--radius-lg);
+      padding: 44px 40px;
+      max-width: 580px; width: 100%;
+      max-height: 85vh; overflow-y: auto;
+      box-shadow: var(--shadow-lg);
+      animation: fadeUp 0.3s ease;
+    }
+    .modal h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 26px; color: var(--gold-dark);
+      margin-bottom: 8px;
+    }
+    .modal .modal-sub {
+      font-size: 13px; color: var(--ink-muted);
+      margin-bottom: 24px;
+    }
+    .fc-step {
+      display: flex; gap: 16px;
+      padding: 16px 0;
+      border-bottom: 1px solid var(--parchment);
+    }
+    .fc-step:last-child { border-bottom: none; }
+    .fc-num {
+      flex-shrink: 0;
+      width: 32px; height: 32px;
+      background: var(--gold-pale);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 14px; font-weight: 600; color: var(--gold-dark);
+    }
+    .fc-content h4 { font-size: 15px; font-weight: 600; color: var(--ink); margin-bottom: 4px; }
+    .fc-content p  { font-size: 13px; color: var(--ink-muted); line-height: 1.6; }
+
+    /* ─── Footer ────────────────────────────────── */
+    footer {
+      border-top: 1px solid var(--parchment);
+      padding: 32px 40px;
+      display: flex; align-items: center; justify-content: space-between;
+      position: relative; z-index: 1;
+    }
+    .footer-logo {
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+      font-size: 20px; color: var(--gold);
+    }
+    .footer-text { font-size: 12px; color: var(--ink-muted); }
+    .footer-link {
+      font-size: 12px; color: var(--gold);
+      text-decoration: none; cursor: pointer;
+      background: none; border: none; font-family: inherit;
+    }
+    .footer-link:hover { text-decoration: underline; }
+
+    @media (max-width: 768px) {
+      .features { grid-template-columns: 1fr; max-width: 360px; }
+      footer { flex-direction: column; gap: 12px; text-align: center; padding: 24px 20px; }
+      .modal { padding: 32px 24px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- Intro Splash -->
+<div id="intro-screen" aria-hidden="true">
+  <div class="intro-logo">LUMÉRE</div>
+  <div class="intro-line"></div>
+  <div class="intro-tagline">Skin Intelligence System</div>
+  <div class="intro-dots">
+    <div class="intro-dot"></div>
+    <div class="intro-dot"></div>
+    <div class="intro-dot"></div>
+  </div>
+</div>
+
+<!-- Background Ornament -->
+<div class="bg-ornament" aria-hidden="true"></div>
+
+<!-- Navigation -->
+<nav class="nav">
+  <a class="nav-logo" onclick="navigateTo('index.html')">LUMÉRE<span>®</span></a>
+  <div class="nav-center">
+    <span class="nav-link active">Beranda</span>
+    <span class="nav-link" onclick="navigateTo('quiz.html')">Diagnosis</span>
+    <span class="nav-link" onclick="navigateTo('history.html')">Riwayat</span>
+  </div>
+  <div class="nav-right">
+    <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark mode" title="Ganti tema"></button>
+    <a class="btn btn-nav" onclick="navigateTo('quiz.html')">
+      <span>✨</span> Mulai Sekarang
+    </a>
+  </div>
+</nav>
+
+<!-- Hero -->
+<section class="hero">
+  <div class="hero-eyebrow">Sistem Pakar Kecantikan · Forward Chaining</div>
+  <h1 class="hero-title">Kenali<br><em>Kulitmu.</em></h1>
+  <p class="hero-subtitle">Temukan rutinitas skincare terbaikmu.</p>
+
+  <div class="hero-form">
+    <div class="name-input-wrap">
+      <input
+        type="text"
+        id="inputName"
+        class="name-input"
+        placeholder="Nama kamu (opsional)…"
+        maxlength="30"
+        autocomplete="off"
+      />
+    </div>
+    <button class="btn btn-primary" onclick="startQuiz()" style="width:100%;font-size:16px;padding:18px;">
+      Mulai Diagnosis Kulit →
+    </button>
+  </div>
+  <p class="name-hint">15 pertanyaan · Gratis · Hasil instan</p>
+</section>
+
+<!-- Features -->
+<div class="features">
+  <div class="card feature">
+    <div class="feature-icon">🔬</div>
+    <h3>Analisis Akurat</h3>
+    <p>Algoritma Forward Chaining mengevaluasi 15 indikator untuk hasil yang presisi.</p>
+  </div>
+  <div class="card feature">
+    <div class="feature-icon">📊</div>
+    <h3>Visualisasi Skor</h3>
+    <p>Lihat distribusi skor 5 jenis kulit dalam radar chart yang interaktif.</p>
+  </div>
+  <div class="card feature">
+    <div class="feature-icon">💆</div>
+    <h3>Rekomendasi Personal</h3>
+    <p>Rutinitas skincare disesuaikan dengan jenis kulit dan tingkat keparahan.</p>
+  </div>
+</div>
+
+<!-- Divider -->
+<div class="container">
+  <div class="divider" style="margin:60px auto;max-width:400px;">
+    <span class="divider-text">✦</span>
+  </div>
+</div>
+
+<!-- Skin Types Preview -->
+<div class="skin-types-section">
+  <div class="section-label">5 Jenis Kulit</div>
+  <h2 class="section-heading">Yang Kami Identifikasi</h2>
+  <div class="skin-pills">
+    <div class="skin-pill" onclick="navigateTo('quiz.html')">
+      <span class="skin-pill-icon">💧</span>
+      <span class="skin-pill-name">Kulit Berminyak</span>
+    </div>
+    <div class="skin-pill" onclick="navigateTo('quiz.html')">
+      <span class="skin-pill-icon">🍂</span>
+      <span class="skin-pill-name">Kulit Kering</span>
+    </div>
+    <div class="skin-pill" onclick="navigateTo('quiz.html')">
+      <span class="skin-pill-icon">☯️</span>
+      <span class="skin-pill-name">Kulit Kombinasi</span>
+    </div>
+    <div class="skin-pill" onclick="navigateTo('quiz.html')">
+      <span class="skin-pill-icon">🌸</span>
+      <span class="skin-pill-name">Kulit Sensitif</span>
+    </div>
+    <div class="skin-pill" onclick="navigateTo('quiz.html')">
+      <span class="skin-pill-icon">⭐</span>
+      <span class="skin-pill-name">Kulit Normal</span>
+    </div>
+  </div>
+</div>
+
+<!-- Footer -->
+<footer>
+  <div class="footer-logo">LUMÉRE</div>
+  <div class="footer-text">© 2025 — Kelompok 3 · Sistem Pakar Forward Chaining</div>
+  <button class="footer-link" onclick="document.getElementById('fcModal').classList.add('active')">
+    Tentang Metode Forward Chaining →
+  </button>
+</footer>
+
+<!-- Forward Chaining Modal -->
+<div class="modal-overlay" id="fcModal">
+  <div class="modal">
+    <h2>Forward Chaining</h2>
+    <p class="modal-sub">Bagaimana LUMÉRE menganalisis kulitmu</p>
+    <div class="fc-step">
+      <div class="fc-num">1</div>
+      <div class="fc-content">
+        <h4>Pengumpulan Fakta</h4>
+        <p>Kamu menjawab 15 pertanyaan tentang kondisi kulit. Jawaban Ya, Kadang-kadang, atau Tidak.</p>
+      </div>
+    </div>
+    <div class="fc-step">
+      <div class="fc-num">2</div>
+      <div class="fc-content">
+        <h4>Evaluasi Rules</h4>
+        <p>"Ya" menambahkan skor penuh ke kategori kulit terkait. "Kadang-kadang" menambahkan setengah skor.</p>
+      </div>
+    </div>
+    <div class="fc-step">
+      <div class="fc-num">3</div>
+      <div class="fc-content">
+        <h4>Scoring & Matching</h4>
+        <p>Kategori dengan skor tertinggi dipilih sebagai jenis kulit dominan dari 5 kandidat.</p>
+      </div>
+    </div>
+    <div class="fc-step">
+      <div class="fc-num">4</div>
+      <div class="fc-content">
+        <h4>Grading Keparahan</h4>
+        <p>Berdasarkan rasio skor, sistem menentukan tingkat keparahan Grade 1 (Ringan) hingga Grade 4 (Parah).</p>
+      </div>
+    </div>
+    <div class="fc-step">
+      <div class="fc-num">5</div>
+      <div class="fc-content">
+        <h4>Rekomendasi Personal</h4>
+        <p>Kombinasi jenis kulit + grade menghasilkan rutinitas skincare yang spesifik untukmu.</p>
+      </div>
+    </div>
+    <div style="margin-top:28px;text-align:center;">
+      <button class="btn btn-primary" onclick="document.getElementById('fcModal').classList.remove('active')" style="min-width:160px;">
+        Mengerti ✓
+      </button>
+    </div>
+  </div>
+</div>
+
+<div class="lumere-toast" id="lumere-toast"></div>
+
+<script src="shared.js"></script>
+<script>
+  // Apply stored theme
+  applyStoredTheme();
+
+  // Theme toggle
+  const toggle = document.getElementById('themeToggle');
+  toggle.addEventListener('click', () => {
+    const current = getTheme();
+    setTheme(current === 'dark' ? 'light' : 'dark');
+  });
+
+  // Close modal on overlay click / Escape
+  document.getElementById('fcModal').addEventListener('click', function(e) {
+    if (e.target === this) this.classList.remove('active');
+  });
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') document.getElementById('fcModal').classList.remove('active');
+  });
+
+  // Start quiz
+  function startQuiz() {
+    const name = document.getElementById('inputName').value.trim();
+    localStorage.setItem('lumere_username', name);
+    navigateTo('quiz.html');
+  }
+  document.getElementById('inputName').addEventListener('keydown', e => {
+    if (e.key === 'Enter') startQuiz();
+  });
+
+  // After intro, remove it from DOM
+  document.getElementById('intro-screen').addEventListener('animationend', function() {
+    this.remove();
+  });
+</script>
+</body>
+</html>

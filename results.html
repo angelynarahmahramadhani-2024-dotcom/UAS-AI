@@ -1,0 +1,547 @@
+<!DOCTYPE html>
+<html lang="id" data-theme="light">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>LUMÉRE — Hasil Diagnosis</title>
+  <link rel="stylesheet" href="style.css"/>
+  <style>
+    .results-wrap {
+      max-width: 860px; margin: 0 auto;
+      padding: 48px 24px 100px;
+      position: relative; z-index: 1;
+    }
+
+    /* ─── Result Header ──────────────────────── */
+    .result-greeting {
+      font-size: 14px; color: var(--ink-muted);
+      text-align: center; margin-bottom: 8px;
+    }
+    .result-main {
+      text-align: center; margin-bottom: 56px;
+    }
+    .result-emoji {
+      font-size: 56px; margin-bottom: 16px;
+      animation: float 4s ease-in-out infinite;
+      display: block;
+    }
+    .result-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(32px, 6vw, 52px);
+      color: var(--ink);
+      margin-bottom: 8px;
+    }
+    .result-subtitle {
+      font-size: 15px; color: var(--ink-muted);
+      margin-bottom: 24px;
+    }
+    .grade-pill {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 10px 24px;
+      border-radius: var(--radius-pill);
+      font-size: 14px; font-weight: 600;
+      border: 2px solid;
+    }
+
+    /* ─── Grid layout ────────────────────────── */
+    .results-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+      margin-bottom: 32px;
+    }
+    .results-grid.full { grid-template-columns: 1fr; }
+
+    /* ─── Chart card ─────────────────────────── */
+    .chart-card { padding: 36px 32px; }
+    .card-label {
+      font-size: 11px; letter-spacing: 3px;
+      text-transform: uppercase; color: var(--gold);
+      font-weight: 600; margin-bottom: 6px;
+    }
+    .card-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 20px; color: var(--ink);
+      margin-bottom: 24px;
+    }
+    #radarChart { max-height: 320px; }
+
+    /* ─── Score bars ─────────────────────────── */
+    .score-bars { display: flex; flex-direction: column; gap: 14px; }
+    .score-row {
+      display: flex; align-items: center; gap: 12px;
+    }
+    .score-label {
+      width: 130px; flex-shrink: 0;
+      font-size: 13px; color: var(--ink-soft);
+      display: flex; align-items: center; gap: 8px;
+    }
+    .score-label-icon { font-size: 16px; }
+    .score-track {
+      flex: 1; height: 8px;
+      background: var(--parchment);
+      border-radius: var(--radius-pill);
+      overflow: hidden;
+    }
+    .score-bar {
+      height: 100%;
+      border-radius: var(--radius-pill);
+      transition: width 1s cubic-bezier(0.4,0,0.2,1);
+    }
+    .score-val {
+      width: 28px; flex-shrink: 0;
+      font-size: 12px; font-weight: 600;
+      color: var(--ink-muted); text-align: right;
+    }
+    .score-winner .score-bar { box-shadow: 0 0 8px rgba(201,168,76,0.4); }
+    .score-winner .score-label { color: var(--gold-dark); font-weight: 600; }
+    .score-winner .score-val { color: var(--gold-dark); }
+
+    /* ─── Description card ───────────────────── */
+    .desc-card { padding: 36px 32px; }
+    .desc-text {
+      font-size: 15px; color: var(--ink-soft);
+      line-height: 1.8; margin-bottom: 20px;
+    }
+    .grade-desc {
+      padding: 16px 20px;
+      background: var(--gold-pale);
+      border-left: 3px solid var(--gold);
+      border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+      font-size: 14px; color: var(--ink-soft);
+      margin-bottom: 20px;
+    }
+    .tips-list {
+      list-style: none;
+      display: flex; flex-direction: column; gap: 8px;
+    }
+    .tips-list li {
+      display: flex; align-items: flex-start; gap: 10px;
+      font-size: 13px; color: var(--ink-soft);
+    }
+    .tips-list li::before {
+      content: '✦';
+      color: var(--gold);
+      flex-shrink: 0;
+      margin-top: 2px;
+      font-size: 11px;
+    }
+
+    /* ─── Recommendations ────────────────────── */
+    .recs-section { margin-bottom: 32px; }
+    .recs-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 16px;
+    }
+    .rec-card {
+      padding: 24px 20px;
+      display: flex; flex-direction: column; gap: 8px;
+      animation: fadeUp 0.5s both;
+    }
+    .rec-icon { font-size: 28px; }
+    .rec-step {
+      font-size: 10px; letter-spacing: 2px;
+      text-transform: uppercase; color: var(--gold);
+      font-weight: 600;
+    }
+    .rec-name {
+      font-family: 'Playfair Display', serif;
+      font-size: 16px; color: var(--ink);
+      line-height: 1.3;
+    }
+    .rec-desc { font-size: 12px; color: var(--ink-muted); line-height: 1.6; }
+
+    /* ─── Actions ────────────────────────────── */
+    .actions-row {
+      display: flex; flex-wrap: wrap; gap: 12px;
+      justify-content: center;
+      margin-top: 48px;
+    }
+
+    /* ─── FC Modal (shared with index) ────────── */
+    .modal-overlay {
+      display: none; position: fixed; inset: 0;
+      background: rgba(26,20,16,0.6);
+      backdrop-filter: blur(8px);
+      z-index: 800;
+      align-items: center; justify-content: center;
+      padding: 20px;
+    }
+    .modal-overlay.active { display: flex; animation: fadeIn 0.25s ease; }
+    .modal {
+      background: var(--white);
+      border-radius: var(--radius-lg);
+      padding: 44px 40px;
+      max-width: 580px; width: 100%;
+      max-height: 85vh; overflow-y: auto;
+      box-shadow: var(--shadow-lg);
+      animation: fadeUp 0.3s ease;
+    }
+    .modal h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 26px; color: var(--gold-dark);
+      margin-bottom: 8px;
+    }
+    .modal .modal-sub { font-size: 13px; color: var(--ink-muted); margin-bottom: 24px; }
+    .fc-step { display: flex; gap: 16px; padding: 16px 0; border-bottom: 1px solid var(--parchment); }
+    .fc-step:last-child { border-bottom: none; }
+    .fc-num {
+      flex-shrink: 0; width: 32px; height: 32px;
+      background: var(--gold-pale); border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 14px; font-weight: 600; color: var(--gold-dark);
+    }
+    .fc-content h4 { font-size: 15px; font-weight: 600; color: var(--ink); margin-bottom: 4px; }
+    .fc-content p  { font-size: 13px; color: var(--ink-muted); line-height: 1.6; }
+
+    /* ─── Saved badge ────────────────────────── */
+    .saved-badge {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 6px 16px;
+      background: #EDFAF4; color: #1A4731;
+      border-radius: var(--radius-pill);
+      font-size: 12px; font-weight: 600;
+      border: 1px solid rgba(26,71,49,0.2);
+    }
+
+    @media (max-width: 768px) {
+      .results-grid { grid-template-columns: 1fr; }
+      .recs-grid { grid-template-columns: 1fr 1fr; }
+      .modal { padding: 32px 24px; }
+    }
+    @media (max-width: 480px) {
+      .recs-grid { grid-template-columns: 1fr; }
+      .actions-row { flex-direction: column; align-items: stretch; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="bg-ornament" aria-hidden="true"></div>
+
+<nav class="nav">
+  <a class="nav-logo" onclick="navigateTo('index.html')">LUMÉRE<span>®</span></a>
+  <div class="nav-center">
+    <span class="nav-link" onclick="navigateTo('index.html')">Beranda</span>
+    <span class="nav-link" onclick="navigateTo('quiz.html')">Diagnosis</span>
+    <span class="nav-link" onclick="navigateTo('history.html')">Riwayat</span>
+  </div>
+  <div class="nav-right">
+    <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark mode"></button>
+    <a class="btn btn-nav" onclick="navigateTo('quiz.html')">🔄 Ulang</a>
+  </div>
+</nav>
+
+<div class="results-wrap" id="resultsWrap">
+  <!-- Rendered by JS -->
+  <div style="text-align:center;padding:80px 0;color:var(--ink-muted);">Memuat hasil…</div>
+</div>
+
+<div class="lumere-toast" id="lumere-toast"></div>
+
+<!-- FC Modal -->
+<div class="modal-overlay" id="fcModal">
+  <div class="modal">
+    <h2>Forward Chaining</h2>
+    <p class="modal-sub">Bagaimana LUMÉRE menganalisis kulitmu</p>
+    <div class="fc-step"><div class="fc-num">1</div><div class="fc-content"><h4>Pengumpulan Fakta</h4><p>Kamu menjawab 15 pertanyaan tentang kondisi kulit.</p></div></div>
+    <div class="fc-step"><div class="fc-num">2</div><div class="fc-content"><h4>Evaluasi Rules</h4><p>"Ya" = skor penuh, "Kadang" = setengah skor ke kategori kulit terkait.</p></div></div>
+    <div class="fc-step"><div class="fc-num">3</div><div class="fc-content"><h4>Scoring & Matching</h4><p>Kategori skor tertinggi = jenis kulit dominan.</p></div></div>
+    <div class="fc-step"><div class="fc-num">4</div><div class="fc-content"><h4>Grading</h4><p>Rasio skor menentukan Grade 1–4.</p></div></div>
+    <div class="fc-step"><div class="fc-num">5</div><div class="fc-content"><h4>Rekomendasi</h4><p>Kombinasi jenis + grade → rutinitas personal.</p></div></div>
+    <div style="margin-top:28px;text-align:center;">
+      <button class="btn btn-primary" onclick="document.getElementById('fcModal').classList.remove('active')" style="min-width:160px;">Mengerti ✓</button>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<script src="shared.js"></script>
+<script>
+  applyStoredTheme();
+  document.getElementById('themeToggle').addEventListener('click', () => {
+    setTheme(getTheme() === 'dark' ? 'light' : 'dark');
+    location.reload(); // Re-render chart with new colors
+  });
+
+  document.getElementById('fcModal').addEventListener('click', function(e) {
+    if (e.target === this) this.classList.remove('active');
+  });
+
+  const RAW = localStorage.getItem('lumere_result');
+  const userName = localStorage.getItem('lumere_username') || '';
+  const wrap = document.getElementById('resultsWrap');
+
+  if (!RAW) {
+    wrap.innerHTML = `
+      <div style="text-align:center;padding:80px 0;">
+        <div style="font-size:48px;margin-bottom:20px;">🌸</div>
+        <p style="font-size:16px;color:var(--ink-muted);margin-bottom:28px;">Belum ada hasil diagnosis.</p>
+        <a class="btn btn-primary" onclick="navigateTo('quiz.html')">Mulai Diagnosis →</a>
+      </div>`;
+  } else {
+    const { skinType, grade, maxScore, scores } = JSON.parse(RAW);
+    renderResults(skinType, grade, scores);
+  }
+
+  function renderResults(skinType, grade, scores) {
+    const st = SKIN_TYPES[skinType];
+    const gr = GRADE_INFO[grade];
+    const recs = RECOMMENDATIONS[skinType][grade] || RECOMMENDATIONS[skinType][1];
+
+    const gradeColors = { 1: '#2D7A4F', 2: '#D4A017', 3: '#B87333', 4: '#C0435A' };
+    const gradeBg    = { 1: '#EDFAF4', 2: '#FFF8E7', 3: '#FFF3EA', 4: '#FFF0F3' };
+    const gColor = gradeColors[grade];
+    const gBg    = gradeBg[grade];
+
+    const scoreColors = {
+      oily: '#D4A017', dry: '#B87333',
+      combination: '#6B4E71', sensitive: '#C0435A', normal: '#2D7A4F'
+    };
+    const maxPossible = 9;
+
+    // Score bars HTML
+    const scoreBarsHTML = Object.entries(scores).map(([k, v]) => {
+      const isWinner = k === skinType;
+      const pct = Math.min(100, Math.round((v / maxPossible) * 100));
+      return `
+        <div class="score-row${isWinner ? ' score-winner' : ''}">
+          <div class="score-label">
+            <span class="score-label-icon">${SKIN_TYPES[k].icon}</span>
+            ${SKIN_TYPES[k].name.replace('Kulit ', '')}
+          </div>
+          <div class="score-track">
+            <div class="score-bar" style="width:${pct}%;background:${scoreColors[k]}"></div>
+          </div>
+          <div class="score-val">${v.toFixed(1)}</div>
+        </div>`;
+    }).join('');
+
+    // Recs HTML
+    const recsHTML = recs.map((r, i) => `
+      <div class="card rec-card" style="animation-delay:${0.3 + i * 0.08}s">
+        <div class="rec-icon">${r.icon}</div>
+        <div class="rec-step">${r.step}</div>
+        <div class="rec-name">${r.name}</div>
+        <div class="rec-desc">${r.desc}</div>
+      </div>`).join('');
+
+    // Tips
+    const tipsHTML = st.tips.map(t => `<li>${t}</li>`).join('');
+
+    wrap.innerHTML = `
+      <div class="result-main">
+        <p class="result-greeting">${userName ? `Halo, <strong>${userName}</strong>! Berdasarkan analisis LUMÉRE...` : 'Berdasarkan analisis LUMÉRE...'}</p>
+        <div class="result-emoji">${st.icon}</div>
+        <h1 class="result-title">${st.name}</h1>
+        <p class="result-subtitle">${st.nameEn}</p>
+        <span class="grade-pill" style="color:${gColor};border-color:${gColor};background:${gBg}">
+          Grade ${grade} — ${gr.label}
+        </span>
+      </div>
+
+      <div class="results-grid">
+        <!-- Chart -->
+        <div class="card chart-card">
+          <div class="card-label">Visualisasi Skor</div>
+          <div class="card-title">Distribusi 5 Jenis Kulit</div>
+          <div style="position:relative;height:300px;">
+            <canvas id="radarChart" role="img" aria-label="Radar chart skor 5 jenis kulit">Skor: Berminyak ${scores.oily}, Kering ${scores.dry}, Kombinasi ${scores.combination}, Sensitif ${scores.sensitive}, Normal ${scores.normal}.</canvas>
+          </div>
+        </div>
+
+        <!-- Score bars + Description -->
+        <div style="display:flex;flex-direction:column;gap:24px;">
+          <div class="card desc-card">
+            <div class="card-label">Skor Detail</div>
+            <div class="score-bars" style="margin-top:8px;">${scoreBarsHTML}</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Description full width -->
+      <div class="card desc-card" style="margin-bottom:32px;">
+        <div class="card-label">Tentang Jenis Kulitmu</div>
+        <div class="card-title">${st.icon} ${st.name}</div>
+        <p class="desc-text">${st.description}</p>
+        <div class="grade-desc">${gr.desc}</div>
+        <div class="card-label" style="margin-bottom:12px;">Tips Perawatan</div>
+        <ul class="tips-list">${tipsHTML}</ul>
+      </div>
+
+      <!-- Recommendations -->
+      <div class="recs-section">
+        <div class="card-label" style="margin-bottom:6px;">Rekomendasi Skincare</div>
+        <div class="card-title" style="font-family:'Playfair Display',serif;font-size:24px;color:var(--ink);margin-bottom:20px;">Rutinitas Personal Untukmu</div>
+        <div class="recs-grid">${recsHTML}</div>
+      </div>
+
+      <!-- Actions -->
+      <div class="actions-row">
+        <button class="btn btn-primary" onclick="saveResult_()" id="btnSave">💾 Simpan ke Riwayat</button>
+        <button class="btn btn-secondary" onclick="exportPDF()">📄 Export PDF</button>
+        <button class="btn btn-secondary" onclick="document.getElementById('fcModal').classList.add('active')">🧠 Forward Chaining</button>
+        <a class="btn btn-ghost" onclick="navigateTo('quiz.html')">🔄 Diagnosa Ulang</a>
+      </div>
+    `;
+
+    // Render radar chart
+    renderRadar(scores, skinType);
+  }
+
+  function renderRadar(scores, winner) {
+    const isDark = getTheme() === 'dark';
+    const gridColor = isDark ? 'rgba(245,237,213,0.08)' : 'rgba(26,20,16,0.08)';
+    const textColor = isDark ? '#9E8E82' : '#6B5B4E';
+    const pointColor = isDark ? '#C9A84C' : '#9A7A2E';
+
+    new Chart(document.getElementById('radarChart'), {
+      type: 'radar',
+      data: {
+        labels: ['Berminyak', 'Kering', 'Kombinasi', 'Sensitif', 'Normal'],
+        datasets: [{
+          label: 'Skor Kulit',
+          data: [scores.oily, scores.dry, scores.combination, scores.sensitive, scores.normal],
+          backgroundColor: 'rgba(201,168,76,0.15)',
+          borderColor: '#C9A84C',
+          borderWidth: 2,
+          pointBackgroundColor: pointColor,
+          pointBorderColor: '#C9A84C',
+          pointRadius: 5,
+          pointHoverRadius: 7,
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: { legend: { display: false } },
+        scales: {
+          r: {
+            min: 0,
+            max: 9,
+            ticks: {
+              stepSize: 3,
+              color: textColor,
+              font: { size: 11 },
+              backdropColor: 'transparent',
+            },
+            grid: { color: gridColor },
+            angleLines: { color: gridColor },
+            pointLabels: {
+              color: textColor,
+              font: { size: 12, family: "'DM Sans', sans-serif" },
+            }
+          }
+        }
+      }
+    });
+  }
+
+  function saveResult_() {
+    const raw = JSON.parse(localStorage.getItem('lumere_result') || '{}');
+    const { skinType, grade, scores } = raw;
+    if (!skinType) return;
+    const st = SKIN_TYPES[skinType];
+    const gr = GRADE_INFO[grade];
+    const recs = RECOMMENDATIONS[skinType][grade] || RECOMMENDATIONS[skinType][1];
+    const entry = {
+      id: Date.now(),
+      date: new Date().toLocaleDateString('id-ID', { day:'numeric', month:'long', year:'numeric', hour:'2-digit', minute:'2-digit' }),
+      name: userName || 'Anonim',
+      skinType, skinTypeName: st.name, icon: st.icon,
+      grade, gradeLabel: gr.label,
+      mainRec: recs.map(r => r.name).join(', '),
+      scores
+    };
+    saveResult(entry);
+    const btn = document.getElementById('btnSave');
+    btn.innerHTML = '<span class="saved-badge">✓ Tersimpan</span>';
+    btn.disabled = true;
+    showToast('Hasil diagnosis berhasil disimpan! ✓', 'success');
+  }
+
+  function exportPDF() {
+    const raw = JSON.parse(localStorage.getItem('lumere_result') || '{}');
+    if (!raw.skinType) return;
+    const { skinType, grade, scores } = raw;
+    const st = SKIN_TYPES[skinType];
+    const gr = GRADE_INFO[grade];
+    const recs = RECOMMENDATIONS[skinType][grade] || RECOMMENDATIONS[skinType][1];
+    const name = userName || 'Pengguna LUMÉRE';
+    const date = new Date().toLocaleDateString('id-ID', { weekday:'long', day:'numeric', month:'long', year:'numeric' });
+
+    const recsText = recs.map((r, i) =>
+      `${i+1}. ${r.step}: ${r.name}\n   ${r.desc}`
+    ).join('\n\n');
+
+    const scoreText = [
+      `Berminyak : ${scores.oily}`,
+      `Kering    : ${scores.dry}`,
+      `Kombinasi : ${scores.combination}`,
+      `Sensitif  : ${scores.sensitive}`,
+      `Normal    : ${scores.normal}`,
+    ].join('\n');
+
+    const content = `
+═══════════════════════════════════════════════════════
+                L U M É R E
+           Sistem Pakar Kulit — Forward Chaining
+═══════════════════════════════════════════════════════
+
+HASIL DIAGNOSIS KULIT
+
+Nama     : ${name}
+Tanggal  : ${date}
+
+JENIS KULIT     : ${st.icon}  ${st.name} (${st.nameEn})
+TINGKAT GRADE   : Grade ${grade} — ${gr.label}
+
+───────────────────────────────────────────────────────
+DESKRIPSI
+───────────────────────────────────────────────────────
+${st.description}
+
+${gr.desc}
+
+───────────────────────────────────────────────────────
+DISTRIBUSI SKOR (Sistem Forward Chaining)
+───────────────────────────────────────────────────────
+${scoreText}
+
+───────────────────────────────────────────────────────
+REKOMENDASI RUTINITAS SKINCARE PERSONAL
+───────────────────────────────────────────────────────
+${recsText}
+
+───────────────────────────────────────────────────────
+TIPS PERAWATAN
+───────────────────────────────────────────────────────
+${st.tips.map((t, i) => `${i+1}. ${t}`).join('\n')}
+
+───────────────────────────────────────────────────────
+CATATAN
+
+Hasil ini dihasilkan oleh sistem pakar berbasis
+algoritma Forward Chaining dan bersifat indikatif.
+Untuk kondisi kulit yang serius, konsultasikan dengan
+dermatologis profesional.
+
+═══════════════════════════════════════════════════════
+© 2025 LUMÉRE — Sistem Pakar Forward Chaining
+Kelompok 3
+═══════════════════════════════════════════════════════
+    `.trim();
+
+    const blob = new Blob([content], { type: 'text/plain;charset=utf-8' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `LUMERE_${skinType}_Grade${grade}_${Date.now()}.txt`;
+    a.click();
+    URL.revokeObjectURL(url);
+    showToast('Hasil diagnosis berhasil diexport! 📄', 'success');
+  }
+</script>
+</body>
+</html>
