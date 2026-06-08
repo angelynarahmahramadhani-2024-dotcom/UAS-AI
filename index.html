@@ -437,8 +437,24 @@
   <div class="nav-right">
     <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark mode"></button>
     <a class="btn btn-nav" onclick="navigateTo('quiz.html')">✦ Mulai Sekarang</a>
+    <button class="hamburger" id="hamburgerBtn" aria-label="Menu">
+      <span class="hamburger-line"></span>
+      <span class="hamburger-line"></span>
+      <span class="hamburger-line"></span>
+    </button>
   </div>
 </nav>
+
+<!-- Mobile Menu -->
+<div class="mobile-menu" id="mobileMenu">
+  <span class="nav-link active">Beranda</span>
+  <span class="nav-link" onclick="navigateTo('quiz.html')">Diagnosis</span>
+  <span class="nav-link" onclick="navigateTo('history.html')">Riwayat</span>
+  <div class="mobile-menu-actions">
+    <button class="theme-toggle" id="themeToggleMobile" aria-label="Toggle dark mode"></button>
+    <a class="btn btn-nav" onclick="navigateTo('quiz.html')" style="flex:1;text-align:center;">✦ Mulai Sekarang</a>
+  </div>
+</div>
 
 <!-- Hero -->
 <section class="hero">
@@ -520,7 +536,7 @@
 <footer>
   <div class="footer-logo">LUMÉRE</div>
   <div class="footer-text">© 2025 — Kelompok 3 · Sistem Pakar Forward Chaining</div>
-  <button class="footer-link" onclick="document.getElementById('fcModal').classList.add('active')">
+  <button class="footer-link" onclick="openModal('fcModal')">
     Tentang Metode Forward Chaining →
   </button>
 </footer>
@@ -581,7 +597,7 @@
     </p>
 
     <div style="margin-top:28px;text-align:center;">
-      <button class="btn btn-primary" onclick="document.getElementById('fcModal').classList.remove('active')" style="min-width:160px;">
+      <button class="btn btn-primary" onclick="closeModal('fcModal')" style="min-width:160px;">
         Mengerti 
       </button>
     </div>
@@ -597,19 +613,23 @@
 <script src="shared.js"></script>
 <script>
   applyStoredTheme();
+  // Theme toggles (desktop + mobile)
   document.getElementById('themeToggle').addEventListener('click', () => {
     setTheme(getTheme() === 'dark' ? 'light' : 'dark');
   });
-  document.getElementById('fcModal').addEventListener('click', function(e) {
-    if (e.target === this) this.classList.remove('active');
+  const tmMobile = document.getElementById('themeToggleMobile');
+  if (tmMobile) tmMobile.addEventListener('click', () => {
+    setTheme(getTheme() === 'dark' ? 'light' : 'dark');
   });
-  document.getElementById('skinInfoModal').addEventListener('click', function(e) {
-    if (e.target === this) this.classList.remove('active');
-  });
+  // Init hamburger
+  initHamburger();
+  // Init modal overlays
+  initModalClose('fcModal');
+  initModalClose('skinInfoModal');
   document.addEventListener('keydown', e => {
     if (e.key === 'Escape') {
-      document.getElementById('fcModal').classList.remove('active');
-      document.getElementById('skinInfoModal').classList.remove('active');
+      closeModal('fcModal');
+      closeModal('skinInfoModal');
     }
   });
 
@@ -685,15 +705,15 @@
       <div class="skin-info-tips-title">Tips Perawatan</div>
       <ul class="skin-info-tips">${tipsHTML}</ul>
       <div style="display:flex;gap:12px;flex-wrap:wrap;">
-        <button class="btn btn-primary" onclick="document.getElementById('skinInfoModal').classList.remove('active');startQuiz();" style="flex:1;min-width:140px;">
+        <button class="btn btn-primary" onclick="closeModal('skinInfoModal');startQuiz();" style="flex:1;min-width:140px;">
           Mulai Diagnosis →
         </button>
-        <button class="btn btn-secondary" onclick="document.getElementById('skinInfoModal').classList.remove('active')" style="flex:1;min-width:140px;">
+        <button class="btn btn-secondary" onclick="closeModal('skinInfoModal')" style="flex:1;min-width:140px;">
           Tutup
         </button>
       </div>
     `;
-    document.getElementById('skinInfoModal').classList.add('active');
+    openModal('skinInfoModal');
   }
 </script>
 </body>

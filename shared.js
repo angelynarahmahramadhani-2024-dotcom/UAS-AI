@@ -278,3 +278,46 @@ function navigateTo(url) {
   document.body.classList.add('page-exit');
   setTimeout(() => { window.location.href = url; }, 350);
 }
+
+// ─── Hamburger Menu ───────────────────────────────────────
+function initHamburger() {
+  const btn = document.getElementById('hamburgerBtn');
+  const menu = document.getElementById('mobileMenu');
+  if (!btn || !menu) return;
+  btn.addEventListener('click', () => {
+    btn.classList.toggle('active');
+    menu.classList.toggle('open');
+  });
+  // Close menu when a link is clicked
+  menu.querySelectorAll('.nav-link').forEach(link => {
+    link.addEventListener('click', () => {
+      btn.classList.remove('active');
+      menu.classList.remove('open');
+    });
+  });
+}
+
+// ─── Modal Scroll Lock ────────────────────────────────────
+function openModal(id) {
+  const el = document.getElementById(id);
+  if (!el) return;
+  el.classList.add('active');
+  document.body.classList.add('modal-open');
+}
+
+function closeModal(id) {
+  const el = document.getElementById(id);
+  if (!el) return;
+  el.classList.remove('active');
+  document.body.classList.remove('modal-open');
+}
+
+function initModalClose(id) {
+  const el = document.getElementById(id);
+  if (!el) return;
+  // Close on overlay click
+  el.addEventListener('click', function(e) {
+    if (e.target === this) closeModal(id);
+  });
+}
+

@@ -168,8 +168,24 @@
   <div class="nav-right">
     <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark mode"></button>
     <a class="btn btn-nav" onclick="navigateTo('history.html')">Riwayat</a>
+    <button class="hamburger" id="hamburgerBtn" aria-label="Menu">
+      <span class="hamburger-line"></span>
+      <span class="hamburger-line"></span>
+      <span class="hamburger-line"></span>
+    </button>
   </div>
 </nav>
+
+<!-- Mobile Menu -->
+<div class="mobile-menu" id="mobileMenu">
+  <span class="nav-link" onclick="navigateTo('index.html')">Beranda</span>
+  <span class="nav-link active">Diagnosis</span>
+  <span class="nav-link" onclick="navigateTo('history.html')">Riwayat</span>
+  <div class="mobile-menu-actions">
+    <button class="theme-toggle" id="themeToggleMobile" aria-label="Toggle dark mode"></button>
+    <a class="btn btn-nav" onclick="navigateTo('history.html')" style="flex:1;text-align:center;">Riwayat</a>
+  </div>
+</div>
 
 <!-- Name Gate Modal — shows if no name was entered -->
 <div class="name-gate-overlay" id="nameGate">
@@ -212,11 +228,16 @@
   document.getElementById('themeToggle').addEventListener('click', () => {
     setTheme(getTheme() === 'dark' ? 'light' : 'dark');
   });
+  const tmMobile = document.getElementById('themeToggleMobile');
+  if (tmMobile) tmMobile.addEventListener('click', () => {
+    setTheme(getTheme() === 'dark' ? 'light' : 'dark');
+  });
+  initHamburger();
 
   // ─── Name Gate: require name before diagnosis ──────
   const storedName = localStorage.getItem('lumere_username') || '';
   if (!storedName.trim()) {
-    document.getElementById('nameGate').classList.add('active');
+    openModal('nameGate');
     document.getElementById('quizContent').style.display = 'none';
   }
 
@@ -231,7 +252,7 @@
       return;
     }
     localStorage.setItem('lumere_username', name);
-    document.getElementById('nameGate').classList.remove('active');
+    closeModal('nameGate');
     document.getElementById('quizContent').style.display = '';
   }
 
