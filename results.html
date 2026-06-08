@@ -14,9 +14,11 @@
     .result-main { text-align: center; margin-bottom: 56px; }
     .result-greeting { font-size: 14px; color: var(--ink-muted); text-align: center; margin-bottom: 8px; }
     .result-emoji {
-      font-size: 56px; margin-bottom: 16px;
+      font-size: 48px; margin-bottom: 16px;
       animation: float 4s ease-in-out infinite;
       display: block;
+      color: var(--rose);
+      font-weight: 700;
     }
     .result-title {
       font-family: 'Cormorant Garamond', serif;
@@ -54,7 +56,7 @@
       font-size: 13px; color: var(--ink-soft);
       display: flex; align-items: center; gap: 8px;
     }
-    .score-label-icon { font-size: 16px; }
+    .score-label-icon { font-size: 14px; color: var(--rose); font-weight: 700; }
     .score-track {
       flex: 1; height: 8px;
       background: var(--blush-deep);
@@ -78,12 +80,12 @@
     }
     .tips-list { list-style: none; display: flex; flex-direction: column; gap: 8px; }
     .tips-list li { display: flex; align-items: flex-start; gap: 10px; font-size: 13px; color: var(--ink-soft); }
-    .tips-list li::before { content: '✿'; color: var(--rose); flex-shrink: 0; margin-top: 2px; font-size: 11px; }
+    .tips-list li::before { content: '✦'; color: var(--rose); flex-shrink: 0; margin-top: 2px; font-size: 10px; }
 
     .recs-section { margin-bottom: 32px; }
     .recs-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; }
     .rec-card { padding: 24px 20px; display: flex; flex-direction: column; gap: 8px; animation: fadeUp 0.5s both; }
-    .rec-icon { font-size: 28px; }
+    .rec-icon { font-size: 22px; color: var(--rose); font-weight: 700; }
     .rec-step { font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: var(--rose); font-weight: 600; }
     .rec-name { font-family: 'Cormorant Garamond', serif; font-size: 16px; color: var(--ink); line-height: 1.3; }
     .rec-desc { font-size: 12px; color: var(--ink-muted); line-height: 1.6; }
@@ -116,7 +118,8 @@
       background: var(--rose-pale);
       border-radius: var(--radius-md);
       display: flex; align-items: center; justify-content: center;
-      font-size: 24px; margin-bottom: 16px;
+      font-size: 20px; margin-bottom: 16px;
+      color: var(--rose-deep); font-weight: 700;
     }
     .modal h2 { font-family: 'Cormorant Garamond', serif; font-size: 28px; color: var(--ink); margin-bottom: 6px; }
     .modal .modal-sub { font-size: 13px; color: var(--ink-muted); margin-bottom: 12px; }
@@ -192,7 +195,7 @@
   </div>
   <div class="nav-right">
     <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark mode"></button>
-    <a class="btn btn-nav" onclick="navigateTo('quiz.html')">🔄 Ulang</a>
+    <a class="btn btn-nav" onclick="navigateTo('quiz.html')">↻ Ulang</a>
   </div>
 </nav>
 
@@ -211,7 +214,7 @@
 <!-- Forward Chaining Modal -->
 <div class="modal-overlay" id="fcModal">
   <div class="modal">
-    <div class="modal-header-icon">🧠</div>
+    <div class="modal-header-icon">FC</div>
     <h2>Metode Forward Chaining</h2>
     <p class="modal-sub">Bagaimana LUMÉRE menganalisis kulitmu</p>
     <p class="modal-intro">
@@ -254,7 +257,7 @@
   if (!RAW) {
     wrap.innerHTML = `
       <div style="text-align:center;padding:80px 0;">
-        <div style="font-size:48px;margin-bottom:20px;">🌸</div>
+        <div style="font-size:40px;margin-bottom:20px;color:var(--rose);font-weight:700;">✦</div>
         <p style="font-size:16px;color:var(--ink-muted);margin-bottom:28px;">Belum ada hasil diagnosis.</p>
         <a class="btn btn-primary" onclick="navigateTo('quiz.html')">Mulai Diagnosis →</a>
       </div>`;
@@ -348,10 +351,10 @@
       </div>
 
       <div class="actions-row">
-        <button class="btn btn-primary" onclick="saveResult_()" id="btnSave">💾 Simpan ke Riwayat</button>
-        <button class="btn btn-secondary" onclick="exportPDF()">📄 Export PDF</button>
-        <button class="btn btn-secondary" onclick="document.getElementById('fcModal').classList.add('active')">🧠 Forward Chaining</button>
-        <a class="btn btn-ghost" onclick="navigateTo('quiz.html')">🔄 Diagnosa Ulang</a>
+        <button class="btn btn-primary" onclick="saveResult_()" id="btnSave">Simpan ke Riwayat</button>
+        <button class="btn btn-secondary" onclick="exportPDF()">Export PDF</button>
+        <button class="btn btn-secondary" onclick="document.getElementById('fcModal').classList.add('active')">Forward Chaining</button>
+        <a class="btn btn-ghost" onclick="navigateTo('quiz.html')">↻ Diagnosa Ulang</a>
       </div>
     `;
 
@@ -416,10 +419,10 @@
     const btn = document.getElementById('btnSave');
     btn.innerHTML = '<span class="saved-badge">✓ Tersimpan</span>';
     btn.disabled = true;
-    showToast('Hasil diagnosis berhasil disimpan! ✓', 'success');
+    showToast('Hasil diagnosis berhasil disimpan!', 'success');
   }
 
-  // ─── PDF Export (jsPDF) ───────────────────────────
+  // ─── PDF Export (jsPDF) — IMPROVED & CLEANED UP ─────────
   function exportPDF() {
     const raw = JSON.parse(localStorage.getItem('lumere_result') || '{}');
     if (!raw.skinType) return;
@@ -428,7 +431,7 @@
     const st = SKIN_TYPES[skinType];
     const gr = GRADE_INFO[grade];
     const recs = RECOMMENDATIONS[skinType][grade] || RECOMMENDATIONS[skinType][1];
-    const name = userName || 'Pengguna LUMÉRE';
+    const name = userName || 'Pengguna LUMERE';
     const dateStr = new Date().toLocaleDateString('id-ID', { weekday:'long', day:'numeric', month:'long', year:'numeric' });
 
     // Show loading
@@ -448,11 +451,11 @@
         // ── Helper functions ──────────────────────────
         function addPage() {
           doc.addPage();
-          y = margin;
+          y = margin + 8;
         }
 
         function checkY(needed) {
-          if (y + needed > pageH - margin) addPage();
+          if (y + needed > pageH - 25) addPage();
         }
 
         function drawRect(x, rectY, w, h, fillColor) {
@@ -460,128 +463,147 @@
           doc.rect(x, rectY, w, h, 'F');
         }
 
+        function roundedRect(x, rectY, w, h, r, fillColor) {
+          doc.setFillColor(...fillColor);
+          doc.roundedRect(x, rectY, w, h, r, r, 'F');
+        }
+
         function wrapText(text, maxWidth, fontSize) {
           doc.setFontSize(fontSize);
           return doc.splitTextToSize(text, maxWidth);
         }
 
-        // ── COVER / HEADER ────────────────────────────
-        // Pink gradient header block
-        drawRect(0, 0, pageW, 60, [212, 96, 122]);
-        drawRect(0, 50, pageW, 15, [176, 64, 96]); // darker bottom strip
+        function drawSectionTitle(title) {
+          checkY(16);
+          // Section header with decorative line
+          doc.setFont('helvetica', 'bold');
+          doc.setFontSize(11);
+          doc.setTextColor(212, 96, 122);
+          doc.text(title, margin, y);
+          y += 4;
+          doc.setDrawColor(212, 96, 122);
+          doc.setLineWidth(0.6);
+          doc.line(margin, y, margin + contentW, y);
+          y += 8;
+        }
 
-        // LUMERE title
+        // ═══════════════════════════════════════════════
+        //  PAGE 1: HEADER & RESULT
+        // ═══════════════════════════════════════════════
+
+        // ── HEADER BAR ──────────────────────────────────
+        drawRect(0, 0, pageW, 52, [212, 96, 122]);
+        // Bottom accent
+        drawRect(0, 48, pageW, 4, [176, 64, 96]);
+
+        // LUMERE logo
         doc.setTextColor(255, 255, 255);
         doc.setFont('times', 'italic');
-        doc.setFontSize(36);
-        doc.text('LUMÉRE', pageW / 2, 28, { align: 'center' });
+        doc.setFontSize(28);
+        doc.text('LUMERE', margin, 22);
 
+        // Subtitle
         doc.setFont('helvetica', 'normal');
-        doc.setFontSize(10);
+        doc.setFontSize(8);
         doc.setTextColor(255, 220, 230);
-        doc.text('SISTEM PAKAR KECANTIKAN · FORWARD CHAINING', pageW / 2, 40, { align: 'center' });
+        doc.text('SKIN INTELLIGENCE  |  FORWARD CHAINING', margin, 30);
 
-        doc.setFontSize(12);
+        // Report title right-aligned
+        doc.setFont('helvetica', 'bold');
+        doc.setFontSize(10);
         doc.setTextColor(255, 255, 255);
-        doc.text('HASIL DIAGNOSIS KULIT', pageW / 2, 52, { align: 'center' });
+        doc.text('LAPORAN DIAGNOSIS KULIT', pageW - margin, 22, { align: 'right' });
 
-        y = 72;
+        // Date right-aligned
+        doc.setFont('helvetica', 'normal');
+        doc.setFontSize(8);
+        doc.setTextColor(255, 220, 230);
+        doc.text(dateStr, pageW - margin, 30, { align: 'right' });
 
-        // ── INFO BLOCK ────────────────────────────────
-        // Light pink info box
-        drawRect(margin, y, contentW, 28, [253, 238, 242]);
-        doc.setDrawColor(212, 96, 122);
-        doc.setLineWidth(0.5);
-        doc.rect(margin, y, contentW, 28);
+        y = 62;
+
+        // ── INFO BOX ────────────────────────────────────
+        roundedRect(margin, y, contentW, 24, 3, [253, 238, 242]);
+        doc.setDrawColor(232, 190, 205);
+        doc.setLineWidth(0.3);
+        doc.roundedRect(margin, y, contentW, 24, 3, 3);
 
         doc.setFont('helvetica', 'normal');
-        doc.setFontSize(10);
+        doc.setFontSize(9);
         doc.setTextColor(122, 79, 96);
-        doc.text('Nama', margin + 6, y + 9);
-        doc.text('Tanggal', margin + 6, y + 19);
+        doc.text('Nama Pasien', margin + 8, y + 9);
+        doc.text('Tanggal Pemeriksaan', margin + 8, y + 18);
 
         doc.setFont('helvetica', 'bold');
+        doc.setFontSize(10);
         doc.setTextColor(45, 26, 34);
-        doc.text(': ' + name, margin + 40, y + 9);
-        doc.text(': ' + dateStr, margin + 40, y + 19);
+        doc.text(name, margin + 55, y + 9);
+        doc.text(dateStr, margin + 55, y + 18);
 
-        y += 36;
+        y += 34;
 
-        // ── JENIS KULIT RESULT CARD ───────────────────
-        drawRect(margin, y, contentW, 36, [212, 96, 122]);
+        // ── DIAGNOSIS RESULT CARD ────────────────────────
+        roundedRect(margin, y, contentW, 32, 3, [212, 96, 122]);
+
         doc.setTextColor(255, 255, 255);
         doc.setFont('times', 'italic');
-        doc.setFontSize(22);
-        doc.text(st.name, margin + 8, y + 14);
+        doc.setFontSize(20);
+        doc.text(st.name, margin + 10, y + 14);
 
         doc.setFont('helvetica', 'normal');
-        doc.setFontSize(10);
+        doc.setFontSize(9);
         doc.setTextColor(255, 220, 230);
-        doc.text(st.nameEn, margin + 8, y + 22);
+        doc.text(st.nameEn, margin + 10, y + 22);
 
-        // Grade badge on right
+        // Grade badge
         const gradeColors = { 1: [45, 122, 79], 2: [184, 115, 51], 3: [212, 96, 122], 4: [139, 26, 42] };
+        roundedRect(pageW - margin - 46, y + 8, 40, 16, 8, [255, 255, 255]);
         const gc = gradeColors[grade] || [212, 96, 122];
-        drawRect(pageW - margin - 48, y + 4, 44, 14, [255, 255, 255]);
         doc.setTextColor(...gc);
         doc.setFont('helvetica', 'bold');
-        doc.setFontSize(9);
-        doc.text(`Grade ${grade} — ${gr.label}`, pageW - margin - 26, y + 13, { align: 'center' });
+        doc.setFontSize(8);
+        doc.text(`Grade ${grade} - ${gr.label}`, pageW - margin - 26, y + 18, { align: 'center' });
 
-        doc.setTextColor(255, 255, 255);
+        y += 42;
+
+        // ── DESCRIPTION ─────────────────────────────────
+        drawSectionTitle('TENTANG JENIS KULIT');
+
+        const descLines = wrapText(st.description, contentW - 4, 10);
         doc.setFont('helvetica', 'normal');
-        doc.setFontSize(9);
-        doc.text(st.icon.replace(/\ufe0f/g, ''), margin + 8, y + 31); // emoji may not render but try
-
-        y += 44;
-
-        // ── DESKRIPSI ─────────────────────────────────
-        checkY(30);
-        doc.setFont('helvetica', 'bold');
-        doc.setFontSize(11);
-        doc.setTextColor(212, 96, 122);
-        doc.text('TENTANG JENIS KULITMU', margin, y);
-        y += 6;
-
-        // Pink underline
-        doc.setDrawColor(212, 96, 122);
-        doc.setLineWidth(0.8);
-        doc.line(margin, y, margin + 70, y);
-        y += 6;
-
-        const descLines = wrapText(st.description, contentW, 10);
-        doc.setFont('helvetica', 'normal');
-        doc.setTextColor(92, 51, 72);
+        doc.setTextColor(72, 42, 58);
         doc.setFontSize(10);
         descLines.forEach(line => {
           checkY(6);
-          doc.text(line, margin, y);
+          doc.text(line, margin + 2, y);
           y += 5.5;
         });
         y += 4;
 
-        // Grade desc box
-        checkY(20);
-        drawRect(margin, y, contentW, 2, [212, 96, 122]); // top border
-        drawRect(margin, y + 2, contentW, 16, [253, 238, 242]);
-        const gradeLines = wrapText(gr.desc, contentW - 10, 10);
-        doc.setTextColor(92, 51, 72);
-        doc.setFontSize(10);
-        gradeLines.forEach((line, i) => {
-          doc.text(line, margin + 5, y + 10 + (i * 5));
-        });
-        y += 22;
+        // Grade assessment box
+        checkY(22);
+        roundedRect(margin, y, contentW, 2, 0, [212, 96, 122]);
+        roundedRect(margin, y + 2, contentW, 18, 0, [253, 244, 247]);
+        doc.setDrawColor(232, 190, 205);
+        doc.setLineWidth(0.2);
+        doc.rect(margin, y + 2, contentW, 18);
 
-        // ── DISTRIBUSI SKOR ───────────────────────────
-        checkY(60);
         doc.setFont('helvetica', 'bold');
-        doc.setFontSize(11);
+        doc.setFontSize(8);
         doc.setTextColor(212, 96, 122);
-        doc.text('DISTRIBUSI SKOR', margin, y);
-        y += 6;
-        doc.setDrawColor(212, 96, 122);
-        doc.line(margin, y, margin + 50, y);
-        y += 8;
+        doc.text(`GRADE ${grade} - ${gr.label.toUpperCase()}`, margin + 6, y + 9);
+        
+        const gradeLines = wrapText(gr.desc, contentW - 12, 9);
+        doc.setFont('helvetica', 'normal');
+        doc.setTextColor(92, 51, 72);
+        doc.setFontSize(9);
+        gradeLines.forEach((line, i) => {
+          doc.text(line, margin + 6, y + 15 + (i * 4));
+        });
+        y += 26;
+
+        // ── SCORE DISTRIBUTION ──────────────────────────
+        drawSectionTitle('DISTRIBUSI SKOR ANALISIS');
 
         const barColors = {
           oily: [212, 96, 122],
@@ -593,154 +615,141 @@
         const maxP = 9;
 
         Object.entries(scores).forEach(([k, v]) => {
-          checkY(12);
+          checkY(14);
           const isW = k === skinType;
           const skinName = SKIN_TYPES[k] ? SKIN_TYPES[k].name : k;
           const pct = Math.min(1, v / maxP);
-          const barW = (contentW - 50) * pct;
+          const barW = (contentW - 58) * pct;
+
+          // Row background for winner
+          if (isW) {
+            roundedRect(margin, y - 2, contentW, 11, 2, [253, 238, 242]);
+          }
 
           // Label
           doc.setFont('helvetica', isW ? 'bold' : 'normal');
           doc.setFontSize(9);
-          doc.setTextColor(isW ? 212 : 122, isW ? 96 : 79, isW ? 122 : 96);
-          doc.text(skinName.replace('Kulit ', ''), margin, y + 5);
+          doc.setTextColor(isW ? 212 : 92, isW ? 96 : 51, isW ? 122 : 72);
+          doc.text(skinName, margin + 3, y + 5);
 
-          // Track bg
-          drawRect(margin + 40, y, contentW - 50, 7, [239, 224, 229]);
+          // Track background
+          roundedRect(margin + 42, y, contentW - 58, 7, 2, [239, 224, 229]);
 
           // Bar fill
-          if (barW > 0) drawRect(margin + 40, y, barW, 7, barColors[k] || [212, 96, 122]);
+          if (barW > 1) roundedRect(margin + 42, y, barW, 7, 2, barColors[k] || [212, 96, 122]);
 
           // Value
           doc.setFont('helvetica', 'bold');
-          doc.setTextColor(45, 26, 34);
-          doc.text(v.toFixed(1), pageW - margin, y + 5.5, { align: 'right' });
+          doc.setFontSize(9);
+          doc.setTextColor(isW ? 176 : 92, isW ? 64 : 51, isW ? 96 : 72);
+          doc.text(v.toFixed(1), pageW - margin - 2, y + 5.5, { align: 'right' });
 
           if (isW) {
-            doc.setFont('helvetica', 'bold');
             doc.setFontSize(7);
             doc.setTextColor(176, 64, 96);
-            doc.text('★', margin + 37, y + 5.5);
+            doc.text('DOMINAN', pageW - margin - 12, y + 5.5, { align: 'right' });
           }
 
-          y += 11;
+          y += 13;
         });
 
         y += 4;
 
-        // ── TIPS ─────────────────────────────────────
-        checkY(30);
-        doc.setFont('helvetica', 'bold');
-        doc.setFontSize(11);
-        doc.setTextColor(212, 96, 122);
-        doc.text('TIPS PERAWATAN', margin, y);
-        y += 6;
-        doc.line(margin, y, margin + 48, y);
-        y += 7;
+        // ── TIPS PERAWATAN ──────────────────────────────
+        drawSectionTitle('TIPS PERAWATAN HARIAN');
 
-        st.tips.forEach(tip => {
-          const tipLines = wrapText('• ' + tip, contentW - 6, 10);
-          checkY(tipLines.length * 5.5 + 2);
+        st.tips.forEach((tip, i) => {
+          const tipLines = wrapText(tip, contentW - 14, 10);
+          checkY(tipLines.length * 5.5 + 3);
+          
+          // Bullet
+          doc.setFont('helvetica', 'bold');
+          doc.setFontSize(9);
+          doc.setTextColor(212, 96, 122);
+          doc.text(`${i + 1}.`, margin + 3, y);
+
           doc.setFont('helvetica', 'normal');
           doc.setFontSize(10);
-          doc.setTextColor(92, 51, 72);
-          tipLines.forEach(line => {
-            doc.text(line, margin + 3, y);
-            y += 5.5;
+          doc.setTextColor(72, 42, 58);
+          tipLines.forEach((line, li) => {
+            doc.text(line, margin + 12, y + (li * 5));
           });
-          y += 2;
+          y += tipLines.length * 5 + 4;
         });
 
         y += 4;
 
-        // ── REKOMENDASI SKINCARE ──────────────────────
-        checkY(20);
-        doc.setFont('helvetica', 'bold');
-        doc.setFontSize(11);
-        doc.setTextColor(212, 96, 122);
-        doc.text('REKOMENDASI RUTINITAS SKINCARE PERSONAL', margin, y);
-        y += 6;
-        doc.line(margin, y, margin + 95, y);
-        y += 8;
+        // ── REKOMENDASI SKINCARE ──────────────────────────
+        drawSectionTitle('REKOMENDASI RUTINITAS SKINCARE');
 
         recs.forEach((r, i) => {
-          const descLines = wrapText(r.desc, contentW - 40, 9);
-          const cardH = Math.max(22, 8 + descLines.length * 4.5 + 4);
-          checkY(cardH + 4);
+          const descLines = wrapText(r.desc, contentW - 22, 9);
+          const cardH = 22 + descLines.length * 4;
+          checkY(cardH + 6);
 
-          // Card background
-          drawRect(margin, y, contentW, cardH, [253, 244, 247]);
+          // Card with rounded corners
+          roundedRect(margin, y, contentW, cardH, 3, [253, 244, 247]);
           doc.setDrawColor(232, 190, 205);
-          doc.setLineWidth(0.3);
-          doc.rect(margin, y, contentW, cardH);
+          doc.setLineWidth(0.2);
+          doc.roundedRect(margin, y, contentW, cardH, 3, 3);
 
           // Step number circle
-          drawRect(margin + 4, y + 4, 12, 12, [212, 96, 122]);
+          doc.setFillColor(212, 96, 122);
+          doc.circle(margin + 9, y + 10, 5, 'F');
           doc.setFont('helvetica', 'bold');
           doc.setFontSize(9);
           doc.setTextColor(255, 255, 255);
-          doc.text(String(i + 1), margin + 10, y + 12, { align: 'center' });
+          doc.text(String(i + 1), margin + 9, y + 12, { align: 'center' });
 
           // Step label
           doc.setFont('helvetica', 'bold');
-          doc.setFontSize(8);
+          doc.setFontSize(7);
           doc.setTextColor(212, 96, 122);
-          doc.text(r.step.toUpperCase(), margin + 20, y + 8);
+          doc.text(r.step.toUpperCase(), margin + 18, y + 8);
 
           // Product name
           doc.setFont('helvetica', 'bold');
-          doc.setFontSize(11);
+          doc.setFontSize(10);
           doc.setTextColor(45, 26, 34);
-          doc.text(r.name, margin + 20, y + 15);
+          doc.text(r.name, margin + 18, y + 14);
 
           // Description
           doc.setFont('helvetica', 'normal');
           doc.setFontSize(9);
-          doc.setTextColor(122, 79, 96);
+          doc.setTextColor(92, 51, 72);
           descLines.forEach((line, li) => {
-            doc.text(line, margin + 20, y + 21 + li * 4.5);
+            doc.text(line, margin + 18, y + 20 + li * 4);
           });
 
-          y += cardH + 4;
+          y += cardH + 5;
         });
 
-        y += 6;
-
-        // ── FOOTER ────────────────────────────────────
-        // Draw on last page
-        const footerY = pageH - 16;
-        drawRect(0, footerY - 2, pageW, 20, [212, 96, 122]);
-        doc.setFont('times', 'italic');
-        doc.setFontSize(12);
-        doc.setTextColor(255, 255, 255);
-        doc.text('LUMÉRE', margin, footerY + 6);
-
-        doc.setFont('helvetica', 'normal');
-        doc.setFontSize(8);
-        doc.setTextColor(255, 220, 230);
-        doc.text('© 2025 Kelompok 3 · Sistem Pakar Forward Chaining', pageW / 2, footerY + 6, { align: 'center' });
-        doc.text('Hasil ini bersifat indikatif. Konsultasi dengan dermatologis untuk kondisi serius.', pageW / 2, footerY + 11, { align: 'center' });
-
-        // Add footer to all previous pages
+        // ── FOOTER ON ALL PAGES ────────────────────────────
         const totalPages = doc.internal.getNumberOfPages();
         for (let p = 1; p <= totalPages; p++) {
           doc.setPage(p);
-          drawRect(0, footerY - 2, pageW, 20, [212, 96, 122]);
+          const footerY = pageH - 14;
+
+          // Footer bar
+          drawRect(0, footerY - 3, pageW, 18, [212, 96, 122]);
+
           doc.setFont('times', 'italic');
-          doc.setFontSize(12);
+          doc.setFontSize(10);
           doc.setTextColor(255, 255, 255);
-          doc.text('LUMÉRE', margin, footerY + 6);
+          doc.text('LUMERE', margin, footerY + 5);
+
           doc.setFont('helvetica', 'normal');
-          doc.setFontSize(8);
+          doc.setFontSize(7);
           doc.setTextColor(255, 220, 230);
-          doc.text('© 2025 Kelompok 3 · Sistem Pakar Forward Chaining', pageW / 2, footerY + 6, { align: 'center' });
-          doc.text(`Halaman ${p} dari ${totalPages}`, pageW - margin, footerY + 6, { align: 'right' });
+          doc.text('Kelompok 3  |  Sistem Pakar Forward Chaining  |  2025', pageW / 2, footerY + 3, { align: 'center' });
+          doc.text('Hasil bersifat indikatif. Konsultasi dermatologis untuk kondisi serius.', pageW / 2, footerY + 8, { align: 'center' });
+          doc.text(`Halaman ${p} / ${totalPages}`, pageW - margin, footerY + 5, { align: 'right' });
         }
 
         // Save PDF
-        const filename = `LUMERE_${st.name.replace(/\s+/g,'_')}_Grade${grade}_${Date.now()}.pdf`;
+        const filename = `LUMERE_${st.name.replace(/\s+/g,'_')}_Grade${grade}_${name.replace(/\s+/g,'_')}.pdf`;
         doc.save(filename);
-        showToast('PDF berhasil didownload! 📄', 'success');
+        showToast('PDF berhasil didownload!', 'success');
 
       } catch(err) {
         console.error(err);
@@ -750,6 +759,7 @@
       }
     }, 300);
   }
+
 </script>
 </body>
 </html>

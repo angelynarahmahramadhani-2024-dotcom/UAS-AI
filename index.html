@@ -14,7 +14,7 @@
       z-index: 1000;
       display: flex; align-items: center; justify-content: center;
       flex-direction: column; gap: 20px;
-      animation: introExit 0.7s 2.8s cubic-bezier(0.4,0,0.2,1) both;
+      animation: introExit 0.5s 2s cubic-bezier(0.4,0,0.2,1) both;
     }
     @keyframes introExit {
       to { opacity: 0; transform: scale(0.96); pointer-events: none; visibility: hidden; }
@@ -23,9 +23,9 @@
       position: absolute; inset: 0; overflow: hidden; pointer-events: none;
     }
     .intro-petal {
-      position: absolute; top: -20px;
-      font-size: 20px;
-      animation: petalFall linear infinite;
+      position: absolute; top: -30px;
+      font-size: 18px;
+      animation: petalFall linear both;
       opacity: 0;
     }
     .intro-logo {
@@ -53,12 +53,12 @@
       text-transform: uppercase;
       color: rgba(249,200,216,0.7);
       opacity: 0;
-      animation: fadeIn 0.6s 1.4s ease both;
+      animation: fadeIn 0.4s 1.2s ease both;
       position: relative; z-index: 1;
     }
     .intro-dots {
       display: flex; gap: 8px; opacity: 0;
-      animation: fadeIn 0.4s 2s ease both;
+      animation: fadeIn 0.4s 1.5s ease both;
       position: relative; z-index: 1;
     }
     .intro-dot {
@@ -99,7 +99,7 @@
       color: var(--rose);
       font-weight: 600;
       margin-bottom: 24px;
-      animation: fadeUp 0.7s 3.2s both;
+      animation: fadeUp 0.7s 2.3s both;
     }
     .hero-title {
       font-family: 'Cormorant Garamond', serif;
@@ -109,7 +109,7 @@
       letter-spacing: -1px;
       color: var(--ink);
       margin-bottom: 10px;
-      animation: fadeUp 0.7s 3.35s both;
+      animation: fadeUp 0.7s 2.4s both;
     }
     .hero-title em {
       font-style: italic;
@@ -121,12 +121,12 @@
       font-size: clamp(18px, 3vw, 24px);
       color: var(--ink-soft);
       margin-bottom: 52px;
-      animation: fadeUp 0.7s 3.5s both;
+      animation: fadeUp 0.7s 2.5s both;
     }
     .hero-form {
       display: flex; flex-direction: column; align-items: center; gap: 16px;
       width: 100%; max-width: 440px;
-      animation: fadeUp 0.7s 3.65s both;
+      animation: fadeUp 0.7s 2.6s both;
     }
     .name-input {
       width: 100%;
@@ -147,11 +147,31 @@
       border-color: var(--rose);
       box-shadow: 0 0 0 4px rgba(212,96,122,0.12);
     }
+    .name-input.input-error {
+      border-color: #C0435A;
+      box-shadow: 0 0 0 4px rgba(192,67,90,0.15);
+      animation: shake 0.4s ease;
+    }
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      20% { transform: translateX(-6px); }
+      40% { transform: translateX(6px); }
+      60% { transform: translateX(-4px); }
+      80% { transform: translateX(4px); }
+    }
     .name-hint {
       font-size: 12px; color: var(--ink-muted);
       font-style: italic;
-      animation: fadeUp 0.7s 3.8s both;
+      animation: fadeUp 0.7s 2.7s both;
     }
+    .name-required {
+      font-size: 12px; color: #C0435A;
+      font-weight: 500;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      margin-top: -8px;
+    }
+    .name-required.show { opacity: 1; }
 
     /* ─── Features ───────────────────────────────── */
     .features {
@@ -168,16 +188,21 @@
       border-radius: var(--radius-lg);
       animation: fadeUp 0.6s both;
     }
-    .feature:nth-child(1) { animation-delay: 3.9s; }
-    .feature:nth-child(2) { animation-delay: 4.05s; }
-    .feature:nth-child(3) { animation-delay: 4.2s; }
+    .feature:nth-child(1) { animation-delay: 2.8s; }
+    .feature:nth-child(2) { animation-delay: 2.9s; }
+    .feature:nth-child(3) { animation-delay: 3.0s; }
     .feature-icon {
       width: 56px; height: 56px;
       margin: 0 auto 16px;
       background: var(--rose-pale);
       border-radius: var(--radius-md);
       display: flex; align-items: center; justify-content: center;
-      font-size: 24px;
+      font-size: 22px;
+      color: var(--rose-deep);
+    }
+    .feature-icon svg {
+      width: 24px; height: 24px;
+      stroke: var(--rose-deep);
     }
     .feature h3 {
       font-family: 'Cormorant Garamond', serif;
@@ -224,8 +249,68 @@
       transform: translateY(-3px);
       box-shadow: var(--shadow-rose);
     }
-    .skin-pill-icon { font-size: 20px; }
+    .skin-pill-icon { font-size: 18px; color: var(--rose); font-weight: 700; }
     .skin-pill-name { font-size: 14px; font-weight: 500; color: var(--ink-soft); }
+
+    /* ─── Skin Info Modal ────────────────────────── */
+    .skin-info-overlay {
+      display: none; position: fixed; inset: 0;
+      background: rgba(45,26,34,0.6);
+      backdrop-filter: blur(8px);
+      z-index: 800;
+      align-items: center; justify-content: center;
+      padding: 20px;
+    }
+    .skin-info-overlay.active { display: flex; animation: fadeIn 0.25s ease; }
+    .skin-info-modal {
+      background: var(--white);
+      border-radius: var(--radius-lg);
+      padding: 44px 40px;
+      max-width: 600px; width: 100%;
+      max-height: 85vh; overflow-y: auto;
+      box-shadow: var(--shadow-lg);
+      animation: fadeUp 0.3s ease;
+    }
+    .skin-info-header {
+      display: flex; align-items: center; gap: 16px;
+      margin-bottom: 20px;
+    }
+    .skin-info-icon {
+      width: 56px; height: 56px;
+      border-radius: var(--radius-md);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 24px; font-weight: 700;
+    }
+    .skin-info-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 28px; color: var(--ink);
+    }
+    .skin-info-subtitle {
+      font-size: 13px; color: var(--ink-muted); font-style: italic;
+    }
+    .skin-info-desc {
+      font-size: 15px; color: var(--ink-soft); line-height: 1.8;
+      margin-bottom: 24px;
+      padding-bottom: 20px;
+      border-bottom: 1px solid var(--parchment);
+    }
+    .skin-info-tips-title {
+      font-size: 11px; letter-spacing: 3px; text-transform: uppercase;
+      color: var(--rose); font-weight: 600; margin-bottom: 14px;
+    }
+    .skin-info-tips {
+      list-style: none;
+      display: flex; flex-direction: column; gap: 10px;
+      margin-bottom: 28px;
+    }
+    .skin-info-tips li {
+      display: flex; align-items: flex-start; gap: 10px;
+      font-size: 14px; color: var(--ink-soft); line-height: 1.6;
+    }
+    .skin-info-tips li::before {
+      content: '✦'; color: var(--rose); flex-shrink: 0;
+      margin-top: 2px; font-size: 10px;
+    }
 
     /* ─── FC Modal ───────────────────────────────── */
     .modal-overlay {
@@ -251,7 +336,8 @@
       background: var(--rose-pale);
       border-radius: var(--radius-md);
       display: flex; align-items: center; justify-content: center;
-      font-size: 24px; margin-bottom: 16px;
+      font-size: 20px; margin-bottom: 16px;
+      color: var(--rose-deep); font-weight: 700;
     }
     .modal h2 {
       font-family: 'Cormorant Garamond', serif;
@@ -319,6 +405,7 @@
       .features { grid-template-columns: 1fr; max-width: 360px; }
       footer { flex-direction: column; gap: 12px; text-align: center; padding: 24px 20px; }
       .modal { padding: 32px 24px; }
+      .skin-info-modal { padding: 32px 24px; }
     }
   </style>
 </head>
@@ -326,13 +413,7 @@
 
 <!-- Intro Splash -->
 <div id="intro-screen" aria-hidden="true">
-  <div class="intro-petals">
-    <div class="intro-petal" style="left:10%;animation-duration:4s;animation-delay:0.5s;font-size:16px;">🌸</div>
-    <div class="intro-petal" style="left:25%;animation-duration:5s;animation-delay:1s;">🌷</div>
-    <div class="intro-petal" style="left:55%;animation-duration:4.5s;animation-delay:0.2s;font-size:14px;">✿</div>
-    <div class="intro-petal" style="left:75%;animation-duration:5.5s;animation-delay:0.8s;">🌸</div>
-    <div class="intro-petal" style="left:88%;animation-duration:4.2s;animation-delay:1.2s;font-size:13px;">🌷</div>
-  </div>
+  <div class="intro-petals" id="introPetals"></div>
   <div class="intro-logo">LUMÉRE</div>
   <div class="intro-line"></div>
   <div class="intro-tagline">Skin Intelligence · For Her</div>
@@ -355,7 +436,7 @@
   </div>
   <div class="nav-right">
     <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark mode"></button>
-    <a class="btn btn-nav" onclick="navigateTo('quiz.html')">🌸 Mulai Sekarang</a>
+    <a class="btn btn-nav" onclick="navigateTo('quiz.html')">✦ Mulai Sekarang</a>
   </div>
 </nav>
 
@@ -366,7 +447,8 @@
   <p class="hero-subtitle">Temukan rutinitas skincare terbaikmu.</p>
   <div class="hero-form">
     <input type="text" id="inputName" class="name-input"
-      placeholder="Nama kamu…" maxlength="30" autocomplete="off"/>
+      placeholder="Masukkan nama kamu…" maxlength="30" autocomplete="off"/>
+    <p class="name-required" id="nameRequired">✦ Nama wajib diisi untuk memulai diagnosis</p>
     <button class="btn btn-primary" onclick="startQuiz()" style="width:100%;font-size:16px;padding:18px;">
       Mulai Diagnosis Kulit →
     </button>
@@ -377,17 +459,23 @@
 <!-- Features -->
 <div class="features">
   <div class="card feature">
-    <div class="feature-icon">🔬</div>
+    <div class="feature-icon">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/><path d="M11 8v6"/><path d="M8 11h6"/></svg>
+    </div>
     <h3>Analisis Akurat</h3>
     <p>Algoritma Forward Chaining mengevaluasi 15 indikator untuk hasil yang presisi.</p>
   </div>
   <div class="card feature">
-    <div class="feature-icon">📊</div>
+    <div class="feature-icon">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 20V10"/><path d="M12 20V4"/><path d="M6 20v-6"/></svg>
+    </div>
     <h3>Visualisasi Skor</h3>
     <p>Lihat distribusi skor 5 jenis kulit dalam radar chart yang interaktif.</p>
   </div>
   <div class="card feature">
-    <div class="feature-icon">💆</div>
+    <div class="feature-icon">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+    </div>
     <h3>Rekomendasi Personal</h3>
     <p>Rutinitas skincare disesuaikan dengan jenis kulit dan tingkat keparahan.</p>
   </div>
@@ -396,7 +484,7 @@
 <!-- Divider -->
 <div class="container">
   <div class="divider" style="margin:60px auto;max-width:400px;">
-    <span class="divider-text">✿</span>
+    <span class="divider-text">✦</span>
   </div>
 </div>
 
@@ -405,24 +493,24 @@
   <div class="section-label">5 Jenis Kulit</div>
   <h2 class="section-heading">Yang Kami Identifikasi</h2>
   <div class="skin-pills">
-    <div class="skin-pill" onclick="navigateTo('quiz.html')">
-      <span class="skin-pill-icon">💧</span>
+    <div class="skin-pill" onclick="showSkinInfo('oily')">
+      <span class="skin-pill-icon">◆</span>
       <span class="skin-pill-name">Kulit Berminyak</span>
     </div>
-    <div class="skin-pill" onclick="navigateTo('quiz.html')">
-      <span class="skin-pill-icon">🍂</span>
+    <div class="skin-pill" onclick="showSkinInfo('dry')">
+      <span class="skin-pill-icon">✦</span>
       <span class="skin-pill-name">Kulit Kering</span>
     </div>
-    <div class="skin-pill" onclick="navigateTo('quiz.html')">
-      <span class="skin-pill-icon">☯️</span>
+    <div class="skin-pill" onclick="showSkinInfo('combination')">
+      <span class="skin-pill-icon">◐</span>
       <span class="skin-pill-name">Kulit Kombinasi</span>
     </div>
-    <div class="skin-pill" onclick="navigateTo('quiz.html')">
-      <span class="skin-pill-icon">🌸</span>
+    <div class="skin-pill" onclick="showSkinInfo('sensitive')">
+      <span class="skin-pill-icon">❋</span>
       <span class="skin-pill-name">Kulit Sensitif</span>
     </div>
-    <div class="skin-pill" onclick="navigateTo('quiz.html')">
-      <span class="skin-pill-icon">⭐</span>
+    <div class="skin-pill" onclick="showSkinInfo('normal')">
+      <span class="skin-pill-icon">✧</span>
       <span class="skin-pill-name">Kulit Normal</span>
     </div>
   </div>
@@ -440,7 +528,7 @@
 <!-- Forward Chaining Modal -->
 <div class="modal-overlay" id="fcModal">
   <div class="modal">
-    <div class="modal-header-icon">🧠</div>
+    <div class="modal-header-icon">FC</div>
     <h2>Metode Forward Chaining</h2>
     <p class="modal-sub">Bagaimana LUMÉRE menganalisis kulitmu</p>
 
@@ -500,6 +588,11 @@
   </div>
 </div>
 
+<!-- Skin Type Info Modal -->
+<div class="skin-info-overlay" id="skinInfoModal">
+  <div class="skin-info-modal" id="skinInfoContent"></div>
+</div>
+
 <div class="lumere-toast" id="lumere-toast"></div>
 <script src="shared.js"></script>
 <script>
@@ -510,20 +603,98 @@
   document.getElementById('fcModal').addEventListener('click', function(e) {
     if (e.target === this) this.classList.remove('active');
   });
-  document.addEventListener('keydown', e => {
-    if (e.key === 'Escape') document.getElementById('fcModal').classList.remove('active');
+  document.getElementById('skinInfoModal').addEventListener('click', function(e) {
+    if (e.target === this) this.classList.remove('active');
   });
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') {
+      document.getElementById('fcModal').classList.remove('active');
+      document.getElementById('skinInfoModal').classList.remove('active');
+    }
+  });
+
+  // Generate many petals dynamically for a lush falling effect
+  (function generatePetals() {
+    const container = document.getElementById('introPetals');
+    if (!container) return;
+    const petalChars = ['✿', '❀', '❁', '✾', '⚘', '✤'];
+    const count = 30; // Many petals for visible effect
+    for (let i = 0; i < count; i++) {
+      const petal = document.createElement('div');
+      petal.className = 'intro-petal';
+      const char = petalChars[Math.floor(Math.random() * petalChars.length)];
+      petal.textContent = char;
+      const left = Math.random() * 100;
+      const dur = 1.2 + Math.random() * 1.3; // 1.2s - 2.5s (fast!)
+      const delay = Math.random() * 1.2;
+      const size = 12 + Math.random() * 10;
+      petal.style.cssText = `left:${left}%;animation-duration:${dur}s;animation-delay:${delay}s;font-size:${size}px;`;
+      container.appendChild(petal);
+    }
+  })();
+
+  // Name validation — REQUIRED
   function startQuiz() {
-    const name = document.getElementById('inputName').value.trim();
+    const nameInput = document.getElementById('inputName');
+    const name = nameInput.value.trim();
+    const requiredMsg = document.getElementById('nameRequired');
+    
+    if (!name) {
+      nameInput.classList.add('input-error');
+      requiredMsg.classList.add('show');
+      nameInput.focus();
+      showToast('Silakan masukkan nama kamu terlebih dahulu', 'error');
+      setTimeout(() => {
+        nameInput.classList.remove('input-error');
+      }, 600);
+      return;
+    }
+    
+    requiredMsg.classList.remove('show');
     localStorage.setItem('lumere_username', name);
     navigateTo('quiz.html');
   }
+
+  // Remove error state on typing
+  document.getElementById('inputName').addEventListener('input', function() {
+    this.classList.remove('input-error');
+    document.getElementById('nameRequired').classList.remove('show');
+  });
+  
   document.getElementById('inputName').addEventListener('keydown', e => {
     if (e.key === 'Enter') startQuiz();
   });
   document.getElementById('intro-screen').addEventListener('animationend', function() {
     this.remove();
   });
+
+  // Show skin type info modal
+  function showSkinInfo(typeKey) {
+    const st = SKIN_TYPES[typeKey];
+    if (!st) return;
+    const tipsHTML = st.tips.map(t => `<li>${t}</li>`).join('');
+    document.getElementById('skinInfoContent').innerHTML = `
+      <div class="skin-info-header">
+        <div class="skin-info-icon" style="background:${st.colorLight};color:${st.color};">${st.icon}</div>
+        <div>
+          <div class="skin-info-title">${st.name}</div>
+          <div class="skin-info-subtitle">${st.nameEn}</div>
+        </div>
+      </div>
+      <p class="skin-info-desc">${st.description}</p>
+      <div class="skin-info-tips-title">Tips Perawatan</div>
+      <ul class="skin-info-tips">${tipsHTML}</ul>
+      <div style="display:flex;gap:12px;flex-wrap:wrap;">
+        <button class="btn btn-primary" onclick="document.getElementById('skinInfoModal').classList.remove('active');startQuiz();" style="flex:1;min-width:140px;">
+          Mulai Diagnosis →
+        </button>
+        <button class="btn btn-secondary" onclick="document.getElementById('skinInfoModal').classList.remove('active')" style="flex:1;min-width:140px;">
+          Tutup
+        </button>
+      </div>
+    `;
+    document.getElementById('skinInfoModal').classList.add('active');
+  }
 </script>
 </body>
 </html>
