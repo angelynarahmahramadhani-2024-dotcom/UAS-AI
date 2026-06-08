@@ -87,15 +87,13 @@
       background: rgba(45,26,34,0.6);
       backdrop-filter: blur(8px);
       z-index: 800;
-      justify-content: center; padding: 20px;
-      overflow-y: auto;
-      -webkit-overflow-scrolling: touch;
+      align-items: center; justify-content: center; padding: 20px;
     }
     .modal-overlay.active { display: flex; animation: fadeIn 0.25s ease; }
     .modal {
       background: var(--white); border-radius: var(--radius-lg);
       padding: 44px 40px; max-width: 600px; width: 100%;
-      margin: auto; flex-shrink: 0;
+      max-height: 85vh; overflow-y: auto;
       box-shadow: var(--shadow-lg); animation: fadeUp 0.3s ease;
     }
     .modal h2 { font-family: 'Cormorant Garamond', serif; font-size: 28px; color: var(--ink); margin-bottom: 4px; }
@@ -138,24 +136,8 @@
   <div class="nav-right">
     <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark mode"></button>
     <a class="btn btn-nav" onclick="navigateTo('quiz.html')">✦ Mulai Diagnosis</a>
-    <button class="hamburger" id="hamburgerBtn" aria-label="Menu">
-      <span class="hamburger-line"></span>
-      <span class="hamburger-line"></span>
-      <span class="hamburger-line"></span>
-    </button>
   </div>
 </nav>
-
-<!-- Mobile Menu -->
-<div class="mobile-menu" id="mobileMenu">
-  <span class="nav-link" onclick="navigateTo('index.html')">Beranda</span>
-  <span class="nav-link" onclick="navigateTo('quiz.html')">Diagnosis</span>
-  <span class="nav-link active">Riwayat</span>
-  <div class="mobile-menu-actions">
-    <button class="theme-toggle" id="themeToggleMobile" aria-label="Toggle dark mode"></button>
-    <a class="btn btn-nav" onclick="navigateTo('quiz.html')" style="flex:1;text-align:center;">✦ Mulai Diagnosis</a>
-  </div>
-</div>
 
 <div class="history-wrap">
   <div class="page-header">
@@ -182,12 +164,9 @@
   document.getElementById('themeToggle').addEventListener('click', () => {
     setTheme(getTheme() === 'dark' ? 'light' : 'dark');
   });
-  const tmMobile = document.getElementById('themeToggleMobile');
-  if (tmMobile) tmMobile.addEventListener('click', () => {
-    setTheme(getTheme() === 'dark' ? 'light' : 'dark');
+  document.getElementById('detailModal').addEventListener('click', function(e) {
+    if (e.target === this) this.classList.remove('active');
   });
-  initHamburger();
-  initModalClose('detailModal');
 
   const gradeColors = { 1: '#2D7A4F', 2: '#B87333', 3: '#D4607A', 4: '#8B1A2A' };
   const gradeBg    = { 1: '#EDFAF4', 2: '#FFF3EA', 3: '#FDEEF2', 4: '#FFF0F3' };
@@ -292,10 +271,10 @@
       <div class="modal-section-title">Rekomendasi Skincare</div>
       <div>${recsHTML}</div>
       <div style="margin-top:28px;display:flex;gap:10px;flex-wrap:wrap;">
-        <button class="btn btn-primary" onclick="closeModal('detailModal')" style="flex:1;min-width:120px;">Tutup</button>
+        <button class="btn btn-primary" onclick="document.getElementById('detailModal').classList.remove('active')" style="flex:1;min-width:120px;">Tutup</button>
       </div>
     `;
-    openModal('detailModal');
+    document.getElementById('detailModal').classList.add('active');
   }
 
   function deleteEntry(idx) {

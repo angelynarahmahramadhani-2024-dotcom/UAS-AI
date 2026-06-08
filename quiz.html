@@ -116,9 +116,7 @@
       background: rgba(45,26,34,0.6);
       backdrop-filter: blur(8px);
       z-index: 800;
-      justify-content: center; padding: 20px;
-      overflow-y: auto;
-      -webkit-overflow-scrolling: touch;
+      align-items: center; justify-content: center; padding: 20px;
     }
     .name-gate-overlay.active { display: flex; animation: fadeIn 0.25s ease; }
     .name-gate-modal {
@@ -170,24 +168,8 @@
   <div class="nav-right">
     <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark mode"></button>
     <a class="btn btn-nav" onclick="navigateTo('history.html')">Riwayat</a>
-    <button class="hamburger" id="hamburgerBtn" aria-label="Menu">
-      <span class="hamburger-line"></span>
-      <span class="hamburger-line"></span>
-      <span class="hamburger-line"></span>
-    </button>
   </div>
 </nav>
-
-<!-- Mobile Menu -->
-<div class="mobile-menu" id="mobileMenu">
-  <span class="nav-link" onclick="navigateTo('index.html')">Beranda</span>
-  <span class="nav-link active">Diagnosis</span>
-  <span class="nav-link" onclick="navigateTo('history.html')">Riwayat</span>
-  <div class="mobile-menu-actions">
-    <button class="theme-toggle" id="themeToggleMobile" aria-label="Toggle dark mode"></button>
-    <a class="btn btn-nav" onclick="navigateTo('history.html')" style="flex:1;text-align:center;">Riwayat</a>
-  </div>
-</div>
 
 <!-- Name Gate Modal — shows if no name was entered -->
 <div class="name-gate-overlay" id="nameGate">
@@ -230,16 +212,11 @@
   document.getElementById('themeToggle').addEventListener('click', () => {
     setTheme(getTheme() === 'dark' ? 'light' : 'dark');
   });
-  const tmMobile = document.getElementById('themeToggleMobile');
-  if (tmMobile) tmMobile.addEventListener('click', () => {
-    setTheme(getTheme() === 'dark' ? 'light' : 'dark');
-  });
-  initHamburger();
 
   // ─── Name Gate: require name before diagnosis ──────
   const storedName = localStorage.getItem('lumere_username') || '';
   if (!storedName.trim()) {
-    openModal('nameGate');
+    document.getElementById('nameGate').classList.add('active');
     document.getElementById('quizContent').style.display = 'none';
   }
 
@@ -254,7 +231,7 @@
       return;
     }
     localStorage.setItem('lumere_username', name);
-    closeModal('nameGate');
+    document.getElementById('nameGate').classList.remove('active');
     document.getElementById('quizContent').style.display = '';
   }
 
