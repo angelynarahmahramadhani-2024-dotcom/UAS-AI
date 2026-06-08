@@ -101,7 +101,9 @@
       background: rgba(45,26,34,0.6);
       backdrop-filter: blur(8px);
       z-index: 800;
-      align-items: center; justify-content: center; padding: 20px;
+      justify-content: center; padding: 20px;
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
     }
     .modal-overlay.active { display: flex; animation: fadeIn 0.25s ease; }
     .modal {
@@ -109,9 +111,10 @@
       border-radius: var(--radius-lg);
       padding: 44px 40px;
       max-width: 600px; width: 100%;
-      max-height: 85vh; overflow-y: auto;
+      margin: auto;
       box-shadow: var(--shadow-lg);
       animation: fadeUp 0.3s ease;
+      flex-shrink: 0;
     }
     .modal-header-icon {
       width: 52px; height: 52px;

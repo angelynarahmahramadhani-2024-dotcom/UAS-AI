@@ -446,6 +446,9 @@ body.page-exit { animation: pageExit 0.35s cubic-bezier(0.4,0,0.2,1) both; }
 /* ─── Body scroll lock for modals ────────────────── */
 body.modal-open {
   overflow: hidden;
+  position: fixed;
+  width: 100%;
+  top: var(--scroll-y, 0);
 }
 
 /* ─── Utility ────────────────────────────────────── */

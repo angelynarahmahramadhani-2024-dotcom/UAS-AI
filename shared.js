@@ -301,15 +301,25 @@ function initHamburger() {
 function openModal(id) {
   const el = document.getElementById(id);
   if (!el) return;
-  el.classList.add('active');
+  // Save current scroll position before locking
+  const scrollY = window.scrollY;
+  document.documentElement.style.setProperty('--scroll-y', `-${scrollY}px`);
+  document.body.dataset.scrollY = scrollY;
   document.body.classList.add('modal-open');
+  el.classList.add('active');
+  // Scroll overlay to top AFTER it becomes visible
+  requestAnimationFrame(() => { el.scrollTop = 0; });
 }
 
 function closeModal(id) {
   const el = document.getElementById(id);
   if (!el) return;
   el.classList.remove('active');
+  // Restore scroll position
+  const scrollY = document.body.dataset.scrollY || '0';
   document.body.classList.remove('modal-open');
+  document.documentElement.style.removeProperty('--scroll-y');
+  window.scrollTo(0, parseInt(scrollY));
 }
 
 function initModalClose(id) {

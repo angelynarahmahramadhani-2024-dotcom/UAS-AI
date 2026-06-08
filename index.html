@@ -258,58 +258,61 @@
       background: rgba(45,26,34,0.6);
       backdrop-filter: blur(8px);
       z-index: 800;
-      align-items: center; justify-content: center;
+      justify-content: center;
       padding: 20px;
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
     }
     .skin-info-overlay.active { display: flex; animation: fadeIn 0.25s ease; }
     .skin-info-modal {
       background: var(--white);
       border-radius: var(--radius-lg);
-      padding: 44px 40px;
-      max-width: 600px; width: 100%;
-      max-height: 85vh; overflow-y: auto;
+      padding: 32px 28px;
+      max-width: 520px; width: 100%;
+      margin: auto;
       box-shadow: var(--shadow-lg);
       animation: fadeUp 0.3s ease;
+      flex-shrink: 0;
     }
     .skin-info-header {
-      display: flex; align-items: center; gap: 16px;
-      margin-bottom: 20px;
+      display: flex; align-items: center; gap: 14px;
+      margin-bottom: 14px;
     }
     .skin-info-icon {
-      width: 56px; height: 56px;
+      width: 48px; height: 48px;
       border-radius: var(--radius-md);
       display: flex; align-items: center; justify-content: center;
-      font-size: 24px; font-weight: 700;
+      font-size: 20px; font-weight: 700;
     }
     .skin-info-title {
       font-family: 'Cormorant Garamond', serif;
-      font-size: 28px; color: var(--ink);
+      font-size: 24px; color: var(--ink);
     }
     .skin-info-subtitle {
-      font-size: 13px; color: var(--ink-muted); font-style: italic;
+      font-size: 12px; color: var(--ink-muted); font-style: italic;
     }
     .skin-info-desc {
-      font-size: 15px; color: var(--ink-soft); line-height: 1.8;
-      margin-bottom: 24px;
-      padding-bottom: 20px;
+      font-size: 13px; color: var(--ink-soft); line-height: 1.7;
+      margin-bottom: 16px;
+      padding-bottom: 14px;
       border-bottom: 1px solid var(--parchment);
     }
     .skin-info-tips-title {
-      font-size: 11px; letter-spacing: 3px; text-transform: uppercase;
-      color: var(--rose); font-weight: 600; margin-bottom: 14px;
+      font-size: 10px; letter-spacing: 3px; text-transform: uppercase;
+      color: var(--rose); font-weight: 600; margin-bottom: 10px;
     }
     .skin-info-tips {
       list-style: none;
-      display: flex; flex-direction: column; gap: 10px;
-      margin-bottom: 28px;
+      display: flex; flex-direction: column; gap: 6px;
+      margin-bottom: 20px;
     }
     .skin-info-tips li {
-      display: flex; align-items: flex-start; gap: 10px;
-      font-size: 14px; color: var(--ink-soft); line-height: 1.6;
+      display: flex; align-items: flex-start; gap: 8px;
+      font-size: 13px; color: var(--ink-soft); line-height: 1.5;
     }
     .skin-info-tips li::before {
       content: '✦'; color: var(--rose); flex-shrink: 0;
-      margin-top: 2px; font-size: 10px;
+      margin-top: 1px; font-size: 9px;
     }
 
     /* ─── FC Modal ───────────────────────────────── */
@@ -318,8 +321,10 @@
       background: rgba(45,26,34,0.6);
       backdrop-filter: blur(8px);
       z-index: 800;
-      align-items: center; justify-content: center;
+      justify-content: center;
       padding: 20px;
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
     }
     .modal-overlay.active { display: flex; animation: fadeIn 0.25s ease; }
     .modal {
@@ -327,9 +332,10 @@
       border-radius: var(--radius-lg);
       padding: 44px 40px;
       max-width: 600px; width: 100%;
-      max-height: 85vh; overflow-y: auto;
+      margin: auto;
       box-shadow: var(--shadow-lg);
       animation: fadeUp 0.3s ease;
+      flex-shrink: 0;
     }
     .modal-header-icon {
       width: 52px; height: 52px;
@@ -535,7 +541,7 @@
 <!-- Footer -->
 <footer>
   <div class="footer-logo">LUMÉRE</div>
-  <div class="footer-text">© 2025 — Kelompok 3 · Sistem Pakar Forward Chaining</div>
+  <div class="footer-text">© 2026 — Kelompok 3 · Sistem Pakar Forward Chaining</div>
   <button class="footer-link" onclick="openModal('fcModal')">
     Tentang Metode Forward Chaining →
   </button>

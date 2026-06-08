@@ -116,7 +116,9 @@
       background: rgba(45,26,34,0.6);
       backdrop-filter: blur(8px);
       z-index: 800;
-      align-items: center; justify-content: center; padding: 20px;
+      justify-content: center; padding: 20px;
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
     }
     .name-gate-overlay.active { display: flex; animation: fadeIn 0.25s ease; }
     .name-gate-modal {
