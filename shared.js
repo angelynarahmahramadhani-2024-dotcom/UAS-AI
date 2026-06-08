@@ -278,3 +278,100 @@ function navigateTo(url) {
   document.body.classList.add('page-exit');
   setTimeout(() => { window.location.href = url; }, 350);
 }
+
+// ─── Mobile Burger Menu ──────────────────────────────────
+document.addEventListener('DOMContentLoaded', () => {
+  const nav = document.querySelector('.nav');
+  const navRight = document.querySelector('.nav-right');
+  const navCenter = document.querySelector('.nav-center');
+  
+  if (nav && navRight && navCenter) {
+    // Create Burger Button
+    const burgerBtn = document.createElement('button');
+    burgerBtn.className = 'burger-btn';
+    burgerBtn.setAttribute('aria-label', 'Toggle menu');
+    burgerBtn.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>';
+    navRight.appendChild(burgerBtn);
+    
+    // Create Mobile Menu Overlay
+    const mobileMenu = document.createElement('div');
+    mobileMenu.className = 'mobile-menu';
+    
+    // Header (Logo & Close)
+    const menuHeader = document.createElement('div');
+    menuHeader.className = 'mobile-menu-header';
+    menuHeader.innerHTML = `
+      <a class="nav-logo" onclick="navigateTo('index.html')">LUMÉRE<span>®</span></a>
+      <button class="mobile-close-btn" aria-label="Close menu">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+      </button>
+    `;
+    
+    // Content (Links)
+    const menuContent = document.createElement('div');
+    menuContent.className = 'mobile-menu-content';
+    
+    Array.from(navCenter.children).forEach(link => {
+      const clonedLink = link.cloneNode(true);
+      clonedLink.className = link.className.replace('nav-link', 'mobile-link');
+      clonedLink.addEventListener('click', () => {
+        if (!clonedLink.hasAttribute('onclick')) {
+          closeMenu();
+        }
+      });
+      menuContent.appendChild(clonedLink);
+    });
+    
+    // Divider
+    const menuDivider = document.createElement('div');
+    menuDivider.className = 'mobile-menu-divider';
+    
+    // Footer (Theme & CTA)
+    const menuFooter = document.createElement('div');
+    menuFooter.className = 'mobile-menu-footer';
+    
+    const themeToggle = navRight.querySelector('.theme-toggle');
+    if (themeToggle) {
+      const clonedTheme = themeToggle.cloneNode(true);
+      clonedTheme.id = 'mobileThemeToggle';
+      clonedTheme.addEventListener('click', () => {
+        setTheme(getTheme() === 'dark' ? 'light' : 'dark');
+      });
+      menuFooter.appendChild(clonedTheme);
+    }
+    
+    const btnNav = navRight.querySelector('.btn-nav');
+    if (btnNav) {
+      const clonedBtn = document.createElement('a');
+      clonedBtn.className = 'mobile-menu-cta';
+      clonedBtn.innerHTML = '✦ Mulai Sekarang';
+      clonedBtn.onclick = () => { closeMenu(); navigateTo('quiz.html'); };
+      menuFooter.appendChild(clonedBtn);
+    }
+    
+    mobileMenu.appendChild(menuHeader);
+    mobileMenu.appendChild(menuContent);
+    mobileMenu.appendChild(menuDivider);
+    mobileMenu.appendChild(menuFooter);
+    
+    document.body.appendChild(mobileMenu);
+    
+    // Toggle Logic
+    let isOpen = false;
+    
+    const openMenu = () => {
+      isOpen = true;
+      mobileMenu.classList.add('open');
+      document.body.style.overflow = 'hidden';
+    };
+    
+    const closeMenu = () => {
+      isOpen = false;
+      mobileMenu.classList.remove('open');
+      document.body.style.overflow = '';
+    };
+    
+    burgerBtn.addEventListener('click', openMenu);
+    menuHeader.querySelector('.mobile-close-btn').addEventListener('click', closeMenu);
+  }
+});
