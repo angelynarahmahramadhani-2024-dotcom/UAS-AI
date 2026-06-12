@@ -126,6 +126,30 @@
       box-shadow: var(--shadow-lg);
       animation: fadeUp 0.3s ease;
       text-align: center;
+      position: relative;
+    }
+    .name-gate-close {
+      position: absolute;
+      top: 16px;
+      right: 16px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: var(--ink-muted);
+      padding: 8px;
+      border-radius: 50%;
+      transition: all var(--transition-fast);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .name-gate-close:hover {
+      background: var(--rose-pale);
+      color: var(--rose-deep);
+    }
+    .name-gate-close svg {
+      width: 24px;
+      height: 24px;
     }
     .name-gate-modal h2 {
       font-family: 'Cormorant Garamond', serif;
@@ -190,6 +214,9 @@
 <!-- Name Gate Modal — shows if no name was entered -->
 <div class="name-gate-overlay" id="nameGate">
   <div class="name-gate-modal">
+    <button class="name-gate-close" onclick="navigateTo('index.html')" aria-label="Batal">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+    </button>
     <div style="font-size:28px;margin-bottom:16px;color:var(--rose);">✦</div>
     <h2>Siapa Namamu?</h2>
     <p>Masukkan nama kamu terlebih dahulu untuk memulai diagnosis kulit.</p>
