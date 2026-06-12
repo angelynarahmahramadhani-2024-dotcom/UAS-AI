@@ -197,7 +197,23 @@
     <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark mode"></button>
     <a class="btn btn-nav" onclick="navigateTo('quiz.html')">↻ Ulang</a>
   </div>
+  <button class="hamburger" id="hamburgerBtn" aria-label="Menu">
+    <span></span>
+    <span></span>
+    <span></span>
+  </button>
 </nav>
+
+<!-- Mobile Menu -->
+<div class="mobile-menu" id="mobileMenu">
+  <span class="nav-link" onclick="navigateTo('index.html')">Beranda</span>
+  <span class="nav-link" onclick="navigateTo('quiz.html')">Diagnosis</span>
+  <span class="nav-link" onclick="navigateTo('history.html')">Riwayat</span>
+  <div class="mobile-menu-actions">
+    <button class="theme-toggle" id="themeToggleMobile" aria-label="Toggle dark mode"></button>
+    <a class="btn btn-nav" onclick="navigateTo('quiz.html')">↻ Ulang</a>
+  </div>
+</div>
 
 <div class="results-wrap" id="resultsWrap">
   <div style="text-align:center;padding:80px 0;color:var(--ink-muted);">Memuat hasil…</div>
@@ -222,6 +238,10 @@
     setTheme(getTheme() === 'dark' ? 'light' : 'dark');
     location.reload();
   });
+<<<<<<< HEAD
+=======
+
+>>>>>>> 0f40dcb84f16cad7a114a5f5155b050b7e0a2106
 
   const RAW = localStorage.getItem('lumere_result');
   const userName = localStorage.getItem('lumere_username') || '';
@@ -326,6 +346,10 @@
       <div class="actions-row">
         <button class="btn btn-primary" onclick="saveResult_()" id="btnSave">Simpan ke Riwayat</button>
         <button class="btn btn-secondary" onclick="exportPDF()">Export PDF</button>
+<<<<<<< HEAD
+=======
+
+>>>>>>> 0f40dcb84f16cad7a114a5f5155b050b7e0a2106
         <a class="btn btn-ghost" onclick="navigateTo('quiz.html')">↻ Diagnosa Ulang</a>
       </div>
     `;

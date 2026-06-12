@@ -193,7 +193,23 @@
     <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark mode"></button>
     <a class="btn btn-nav" onclick="navigateTo('history.html')">Riwayat</a>
   </div>
+  <button class="hamburger" id="hamburgerBtn" aria-label="Menu">
+    <span></span>
+    <span></span>
+    <span></span>
+  </button>
 </nav>
+
+<!-- Mobile Menu -->
+<div class="mobile-menu" id="mobileMenu">
+  <span class="nav-link" onclick="navigateTo('index.html')">Beranda</span>
+  <span class="nav-link active">Diagnosis</span>
+  <span class="nav-link" onclick="navigateTo('history.html')">Riwayat</span>
+  <div class="mobile-menu-actions">
+    <button class="theme-toggle" id="themeToggleMobile" aria-label="Toggle dark mode"></button>
+    <a class="btn btn-nav" onclick="navigateTo('history.html')">Riwayat</a>
+  </div>
+</div>
 
 <!-- Name Gate Modal — shows if no name was entered -->
 <div class="name-gate-overlay" id="nameGate">

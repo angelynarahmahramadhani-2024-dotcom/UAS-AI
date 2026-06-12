@@ -137,7 +137,23 @@
     <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark mode"></button>
     <a class="btn btn-nav" onclick="navigateTo('quiz.html')">✦ Mulai Diagnosis</a>
   </div>
+  <button class="hamburger" id="hamburgerBtn" aria-label="Menu">
+    <span></span>
+    <span></span>
+    <span></span>
+  </button>
 </nav>
+
+<!-- Mobile Menu -->
+<div class="mobile-menu" id="mobileMenu">
+  <span class="nav-link" onclick="navigateTo('index.html')">Beranda</span>
+  <span class="nav-link" onclick="navigateTo('quiz.html')">Diagnosis</span>
+  <span class="nav-link active">Riwayat</span>
+  <div class="mobile-menu-actions">
+    <button class="theme-toggle" id="themeToggleMobile" aria-label="Toggle dark mode"></button>
+    <a class="btn btn-nav" onclick="navigateTo('quiz.html')">✦ Mulai Diagnosis</a>
+  </div>
+</div>
 
 <div class="history-wrap">
   <div class="page-header">
