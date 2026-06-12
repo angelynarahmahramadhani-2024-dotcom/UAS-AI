@@ -158,12 +158,6 @@ body.page-exit { animation: pageExit 0.35s cubic-bezier(0.4,0,0.2,1) both; }
   letter-spacing: 4px;
   cursor: pointer;
   transition: opacity var(--transition-fast);
-  display: inline-flex; align-items: center; gap: 10px;
-}
-.nav-unair-logo {
-  height: 38px; width: auto;
-  object-fit: contain;
-  flex-shrink: 0;
 }
 .nav-logo:hover { opacity: 0.75; }
 .nav-logo span { color: var(--rose-light); font-size: 13px; vertical-align: super; }
