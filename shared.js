@@ -278,3 +278,41 @@ function navigateTo(url) {
   document.body.classList.add('page-exit');
   setTimeout(() => { window.location.href = url; }, 350);
 }
+
+// ─── Hamburger Menu & Mobile Theme Toggle ──────────────────
+document.addEventListener('DOMContentLoaded', () => {
+  const hamburgerBtn = document.getElementById('hamburgerBtn');
+  const mobileMenu = document.getElementById('mobileMenu');
+  
+  if (hamburgerBtn && mobileMenu) {
+    hamburgerBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      hamburgerBtn.classList.toggle('active');
+      mobileMenu.classList.toggle('open');
+    });
+
+    // Close mobile menu when clicking outside
+    document.addEventListener('click', (e) => {
+      if (!mobileMenu.contains(e.target) && !hamburgerBtn.contains(e.target)) {
+        hamburgerBtn.classList.remove('active');
+        mobileMenu.classList.remove('open');
+      }
+    });
+
+    // Close mobile menu when pressing Escape
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        hamburgerBtn.classList.remove('active');
+        mobileMenu.classList.remove('open');
+      }
+    });
+  }
+
+  // Mobile Theme Toggle click handler
+  const themeToggleMobile = document.getElementById('themeToggleMobile');
+  if (themeToggleMobile) {
+    themeToggleMobile.addEventListener('click', () => {
+      setTheme(getTheme() === 'dark' ? 'light' : 'dark');
+    });
+  }
+});
