@@ -162,6 +162,22 @@ body.page-exit { animation: pageExit 0.35s cubic-bezier(0.4,0,0.2,1) both; }
 .nav-logo:hover { opacity: 0.75; }
 .nav-logo span { color: var(--rose-light); font-size: 13px; vertical-align: super; }
 
+.logo-vokasi {
+  height: 42px;
+  width: auto;
+  margin-right: 15px;
+  vertical-align: middle;
+  object-fit: contain;
+  background: transparent;
+}
+
+@media (max-width: 480px) {
+  .logo-vokasi {
+    height: 32px;
+    margin-right: 10px;
+  }
+}
+
 .nav-center { display: flex; gap: 4px; }
 .nav-link {
   padding: 8px 18px;
