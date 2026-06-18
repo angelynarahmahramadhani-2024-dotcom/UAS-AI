@@ -213,30 +213,7 @@
 
 <div class="lumere-toast" id="lumere-toast"></div>
 
-<!-- Forward Chaining Modal -->
-<div class="modal-overlay" id="fcModal">
-  <div class="modal">
-    <div class="modal-header-icon">FC</div>
-    <h2>Metode Forward Chaining</h2>
-    <p class="modal-sub">Bagaimana LUMÉRE menganalisis kulitmu</p>
-    <p class="modal-intro">
-      <strong>Forward Chaining</strong> adalah metode inferensi dalam sistem pakar
-      yang bekerja dari <em>fakta menuju kesimpulan</em>. Sistem ini meniru cara
-      kerja seorang dermatologis dalam mendiagnosis kondisi kulit.
-    </p>
-    <ol class="fc-steps-list">
-      <li class="fc-step"><div class="fc-num">1</div><div class="fc-content"><h4>Pengumpulan Fakta</h4><p>Pengguna menjawab 15 pertanyaan tentang kondisi kulit mereka (Ya / Tidak / Kadang-kadang).</p></div></li>
-      <li class="fc-step"><div class="fc-num">2</div><div class="fc-content"><h4>Evaluasi Rules</h4><p>Setiap jawaban "Ya" menambahkan skor penuh ke kategori kulit terkait. Jawaban "Kadang-kadang" menambahkan setengah skor.</p></div></li>
-      <li class="fc-step"><div class="fc-num">3</div><div class="fc-content"><h4>Scoring &amp; Matching</h4><p>Kategori dengan skor tertinggi dipilih sebagai jenis kulit dominan. Jika semua skor rendah, sistem menyimpulkan kulit Normal.</p></div></li>
-      <li class="fc-step"><div class="fc-num">4</div><div class="fc-content"><h4>Grading</h4><p>Berdasarkan skor pemenang, sistem menentukan tingkat keparahan (Grade 1–4).</p></div></li>
-      <li class="fc-step"><div class="fc-num">5</div><div class="fc-content"><h4>Rekomendasi</h4><p>Berdasarkan kombinasi jenis kulit + grade, sistem memberikan rekomendasi skincare yang spesifik dan adaptif.</p></div></li>
-    </ol>
-    <p class="modal-footer-note">Dengan pendekatan ini, LUMÉRE mampu memberikan saran perawatan yang <strong>personal</strong> dan <strong>berbasis evidence</strong>, layaknya konsultasi awal dengan dermatologis.</p>
-    <div style="margin-top:28px;text-align:center;">
-      <button class="btn btn-primary" onclick="document.getElementById('fcModal').classList.remove('active')" style="min-width:160px;">Mengerti ✓</button>
-    </div>
-  </div>
-</div>
+
 
 <!-- jsPDF CDN -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
@@ -248,9 +225,7 @@
     setTheme(getTheme() === 'dark' ? 'light' : 'dark');
     location.reload();
   });
-  document.getElementById('fcModal').addEventListener('click', function(e) {
-    if (e.target === this) this.classList.remove('active');
-  });
+
 
   const RAW = localStorage.getItem('lumere_result');
   const userName = localStorage.getItem('lumere_username') || '';
@@ -282,11 +257,10 @@
       oily: '#D4607A', dry: '#E8899B',
       combination: '#9B6080', sensitive: '#B04060', normal: '#6B3050'
     };
-    const maxPossible = 9;
-
     const scoreBarsHTML = Object.entries(scores).map(([k, v]) => {
       const isWinner = k === skinType;
-      const pct = Math.min(100, Math.round((v / maxPossible) * 100));
+      const limit = MAX_POSSIBLE[k] || 1;
+      const pct = Math.min(100, Math.round((v / limit) * 100));
       return `
         <div class="score-row${isWinner ? ' score-winner' : ''}">
           <div class="score-label">
@@ -355,7 +329,6 @@
       <div class="actions-row">
         <button class="btn btn-primary" onclick="saveResult_()" id="btnSave">Simpan ke Riwayat</button>
         <button class="btn btn-secondary" onclick="exportPDF()">Export PDF</button>
-        <button class="btn btn-secondary" onclick="document.getElementById('fcModal').classList.add('active')">Forward Chaining</button>
         <a class="btn btn-ghost" onclick="navigateTo('quiz.html')">↻ Diagnosa Ulang</a>
       </div>
     `;
@@ -614,13 +587,12 @@
           sensitive: [176, 64, 96],
           normal: [107, 48, 80]
         };
-        const maxP = 9;
-
         Object.entries(scores).forEach(([k, v]) => {
           checkY(14);
           const isW = k === skinType;
           const skinName = SKIN_TYPES[k] ? SKIN_TYPES[k].name : k;
-          const pct = Math.min(1, v / maxP);
+          const limit = MAX_POSSIBLE[k] || 1;
+          const pct = Math.min(1, v / limit);
           const barW = (contentW - 58) * pct;
 
           // Row background for winner

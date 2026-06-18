@@ -4,21 +4,26 @@
 // ═══════════════════════════════════════
 
 const QUESTIONS = [
-  { text: 'Apakah kulit kamu terlihat mengkilap dan terasa berminyak di seluruh wajah sepanjang hari?', rules: { ya: { oily: 2 }, kadang: { oily: 1 } } },
-  { text: 'Apakah pori-pori kamu terlihat besar dan mudah tersumbat komedo?', rules: { ya: { oily: 2 }, kadang: { oily: 1 } } },
-  { text: 'Apakah kamu sering muncul jerawat di hampir seluruh area wajah?', rules: { ya: { oily: 2 }, kadang: { oily: 1 } } },
-  { text: 'Apakah makeup kamu mudah luntur dalam waktu kurang dari 2 jam?', rules: { ya: { oily: 1 }, kadang: { oily: 0.5 } } },
-  { text: 'Apakah kulit kamu terasa kencang atau tidak nyaman setelah cuci muka?', rules: { ya: { dry: 2 }, kadang: { dry: 1 } } },
-  { text: 'Apakah kulit kamu mudah mengelupas meskipun cuaca normal?', rules: { ya: { dry: 2 }, kadang: { dry: 1 } } },
-  { text: 'Apakah kulit kamu terlihat kusam dan kasar sepanjang hari?', rules: { ya: { dry: 2 }, kadang: { dry: 1 } } },
-  { text: 'Apakah wajah kamu jarang atau tidak pernah terlihat mengkilap atau berminyak seharian?', rules: { ya: { dry: 2 }, kadang: { dry: 1 } } },
-  { text: 'Apakah area T-zone kamu (dahi, hidung, dagu) cenderung berminyak sedangkan bagian pipi terasa normal atau kering?', rules: { ya: { combination: 2 }, kadang: { combination: 1 } } },
-  { text: 'Apakah jerawat atau pori-pori besar lebih sering muncul di T-zone dibandingkan di bagian pipi?', rules: { ya: { combination: 2 }, kadang: { combination: 1 } } },
-  { text: 'Apakah tanda-tanda penuaan seperti garis halus atau kerutan muncul lebih dini dari usia wajar kamu?', rules: { ya: { dry: 1, combination: 1 }, kadang: { dry: 0.5, combination: 0.5 } } },
-  { text: 'Apakah kulit kamu mudah kemerahan setelah cuci muka meskipun produk facial wash tidak mengandung bahan keras?', rules: { ya: { sensitive: 2 }, kadang: { sensitive: 1 } } },
-  { text: 'Apakah kulit kamu terasa perih, terbakar, atau gatal saat memakai produk skincare baru?', rules: { ya: { sensitive: 2 }, kadang: { sensitive: 1 } } },
-  { text: 'Apakah kulit kamu rentan breakout atau meradang karena faktor cuaca dan lingkungan sekitar?', rules: { ya: { sensitive: 2 }, kadang: { sensitive: 1 } } },
-  { text: 'Apakah kulit kamu terasa seimbang — tidak terlalu berminyak, tidak kering, jarang iritasi, dan jarang berjerawat?', rules: { ya: { normal: 2 }, kadang: { normal: 1 } } }
+  // ── OILY (5 soal, max 8 poin) ──
+  { text: 'Dalam 2–3 jam setelah cuci muka (tanpa pakai skincare apa pun), apakah wajahmu sudah terlihat berminyak lagi di hampir semua bagian wajah?', rules: { ya: { oily: 2 }, kadang: { oily: 1 } } },
+  { text: 'Apakah pori-pori di wajahmu terlihat besar dan jelas, di hampir seluruh wajah?', rules: { ya: { oily: 2 }, kadang: { oily: 1 } } },
+  { text: 'Apakah komedo (titik hitam atau putih) sering muncul dan mudah terlihat di banyak area wajah?', rules: { ya: { oily: 1 }, kadang: { oily: 0.5 } } },
+  { text: 'Apakah area dahi dan hidungmu terlihat mengkilap saat terkena cahaya, meski kamu belum melakukan aktivitas fisik atau berada di tempat panas?', rules: { ya: { oily: 1 }, kadang: { oily: 0.5 } } },
+  { text: 'Apakah jerawat sering muncul di area wajah yang juga terasa berminyak, tanpa disertai rasa perih atau kemerahan?', rules: { ya: { oily: 1 }, kadang: { oily: 0.5 } } },
+  // ── DRY (4 soal, max 7 poin) ──
+  { text: 'Setelah cuci muka tanpa pakai pelembab, apakah kulitmu terasa kencang atau tidak nyaman dalam 15–30 menit?', rules: { ya: { dry: 2 }, kadang: { dry: 1 } } },
+  { text: 'Apakah kulitmu sering mengelupas atau bersisik halus, padahal bukan sedang cuaca dingin/kering ekstrem?', rules: { ya: { dry: 2 }, kadang: { dry: 1 } } },
+  { text: 'Apakah kulitmu terasa kasar saat disentuh, hampir sepanjang waktu?', rules: { ya: { dry: 2 }, kadang: { dry: 1 } } },
+  { text: 'Apakah wajahmu jarang sekali terlihat berminyak, bahkan di cuaca panas atau lembap?', rules: { ya: { dry: 1 }, kadang: { dry: 0.5 } } },
+  // ── COMBINATION (2 soal, max 4 poin) ──
+  { text: 'Apakah T-zone (dahi, hidung, dagu) terasa berminyak dalam beberapa jam, sementara pipi pada saat yang sama terasa biasa saja atau malah kering?', rules: { ya: { combination: 2 }, kadang: { combination: 1 } } },
+  { text: 'Apakah komedo atau pori besar lebih sering muncul di area dahi & hidung dibanding di pipi?', rules: { ya: { combination: 2 }, kadang: { combination: 1 } } },
+  // ── SENSITIVE (3 soal, max 5 poin, dipisah per trigger) ──
+  { text: 'Apakah kulitmu pernah terasa perih, panas, atau gatal setelah memakai produk skincare baru — meski produknya berlabel "untuk kulit sensitif"?', rules: { ya: { sensitive: 2 }, kadang: { sensitive: 1 } } },
+  { text: 'Apakah wajahmu mudah memerah atau iritasi saat cuaca/suhu di sekitarmu berubah secara tiba-tiba — bukan karena produk?', rules: { ya: { sensitive: 2 }, kadang: { sensitive: 1 } } },
+  { text: 'Apakah kamu punya riwayat alergi kulit terhadap kosmetik/skincare tertentu yang sudah pernah terjadi sebelumnya (bukan sekadar khawatir)?', rules: { ya: { sensitive: 1 }, kadang: { sensitive: 0.5 } } },
+  // ── NORMAL (1 soal, max 2 poin) ──
+  { text: 'Secara umum, apakah wajahmu terasa nyaman dan seimbang sepanjang hari tanpa pakai skincare apa pun?', rules: { ya: { normal: 2 }, kadang: { normal: 1 } } }
 ];
 
 const SKIN_TYPES = {
@@ -210,6 +215,35 @@ const RECOMMENDATIONS = {
 };
 
 // ─── Forward Chaining Engine ───────────────────────────────
+// Catatan revisi: winner & grading sekarang berbasis RASIO (skor / maxPossible
+// per kategori), bukan skor mentah. Ini memperbaiki 3 isu:
+// 1. Tie-breaking yang sebelumnya bias ke urutan deklarasi objek (oily selalu
+//    menang duluan kalau skor seri dengan kategori lain).
+// 2. Ketidakadilan grading: kategori dengan maxPossible kecil (misal combination
+//    max 4) tidak lagi otomatis di-grade lebih rendah/tinggi secara tidak adil
+//    dibanding kategori dengan maxPossible besar (oily max 8).
+// 3. Kategori "normal" yang secara struktural sulit menang lewat skor mentah
+//    (max 2 poin) — sekarang ditentukan lewat ambang rasio: jika tidak ada
+//    kategori lain yang gejalanya signifikan (rasio < NORMAL_THRESHOLD),
+//    hasilnya normal.
+
+const NORMAL_THRESHOLD = 0.3; // di bawah ini, dianggap tidak ada gejala dominan signifikan
+
+// Hitung maxPossible per kategori secara otomatis dari QUESTIONS,
+// supaya kalau soal diubah lagi nanti, maxPossible tidak perlu diupdate manual.
+function calculateMaxPossible() {
+  const max = { oily: 0, dry: 0, combination: 0, sensitive: 0, normal: 0 };
+  for (const q of QUESTIONS) {
+    if (!q.rules.ya) continue;
+    for (const [type, pts] of Object.entries(q.rules.ya)) {
+      max[type] += pts; // jawaban 'ya' selalu poin tertinggi per soal
+    }
+  }
+  return max;
+}
+
+const MAX_POSSIBLE = calculateMaxPossible();
+
 function processAnswers(answers) {
   const scores = { oily: 0, dry: 0, combination: 0, sensitive: 0, normal: 0 };
   for (let i = 0; i < QUESTIONS.length; i++) {
@@ -221,14 +255,48 @@ function processAnswers(answers) {
       for (const [type, pts] of Object.entries(q.rules.kadang)) scores[type] += pts;
     }
   }
-  const maxScore = Math.max(...Object.values(scores));
-  const skinType = maxScore === 0 ? 'normal' : Object.keys(scores).find(k => scores[k] === maxScore);
-  const maxPossible = skinType === 'oily' ? 7 : skinType === 'dry' ? 9 : skinType === 'combination' ? 5 : skinType === 'sensitive' ? 6 : 2;
-  const ratio = maxScore / maxPossible;
-  let grade = 1;
-  if (ratio >= 0.75) grade = 4;
-  else if (ratio >= 0.5) grade = 3;
-  else if (ratio >= 0.25) grade = 2;
+
+  // Hitung rasio hanya untuk 4 kategori "bergejala" (bukan normal, karena
+  // normal ditentukan lewat ambang rasio kategori lain, bukan rasio dirinya sendiri)
+  const symptomTypes = ['oily', 'dry', 'combination', 'sensitive'];
+  const ratios = {};
+  for (const type of symptomTypes) {
+    ratios[type] = MAX_POSSIBLE[type] > 0 ? scores[type] / MAX_POSSIBLE[type] : 0;
+  }
+
+  const maxRatio = Math.max(...Object.values(ratios));
+
+  let skinType;
+  if (maxRatio < NORMAL_THRESHOLD) {
+    skinType = 'normal';
+  } else {
+    // Tie-breaking: kalau rasio seri, menang berdasarkan skor mentah tertinggi
+    // (bukan urutan deklarasi objek seperti versi sebelumnya)
+    const topTypes = symptomTypes.filter(t => ratios[t] === maxRatio);
+    skinType = topTypes.length === 1
+      ? topTypes[0]
+      : topTypes.reduce((a, b) => scores[a] >= scores[b] ? a : b);
+  }
+
+  const maxScore = scores[skinType];
+
+  // Grade untuk 'normal' SELALU rendah (1) — karena masuk kategori normal artinya
+  // tidak ada gejala dominan yang signifikan (rasio kategori lain < threshold).
+  // Tidak masuk akal secara klinis ada "normal grade 4"; itu kontradiksi konsep
+  // (lihat juga catatan matriks rekomendasi: normal grade 4 = kondisi tidak biasa).
+  // Skor soal #15 sendiri TIDAK dipakai untuk menentukan grade, hanya sebagai
+  // sinyal pendukung opsional di data scores untuk ditampilkan di radar chart.
+  let grade;
+  if (skinType === 'normal') {
+    grade = 1;
+  } else {
+    const ratio = ratios[skinType];
+    grade = 1;
+    if (ratio >= 0.75) grade = 4;
+    else if (ratio >= 0.5) grade = 3;
+    else if (ratio >= 0.25) grade = 2;
+  }
+
   return { skinType, grade, maxScore, scores };
 }
 
@@ -244,6 +312,7 @@ function saveResult(entry) {
   localStorage.setItem('lumere_history', JSON.stringify(history));
 }
 
+// ─── Theme Management ──────────────────────────────────────
 function getTheme() {
   return localStorage.getItem('lumere_theme') || 'light';
 }

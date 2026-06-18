@@ -197,10 +197,10 @@
       const gColor = gradeColors[entry.grade] || '#7A4F60';
       const gBg    = gradeBg[entry.grade]    || '#F5EEF1';
       const scores = entry.scores || {};
-      const maxPossible = 9;
 
       const miniBars = Object.entries(scores).map(([k, v]) => {
-        const pct = Math.min(100, Math.round((v / maxPossible) * 100));
+        const limit = MAX_POSSIBLE[k] || 1;
+        const pct = Math.min(100, Math.round((v / limit) * 100));
         return `<div class="score-mini-row">
           <div class="score-mini-label">${SKIN_TYPES[k] ? SKIN_TYPES[k].name.replace('Kulit ','') : k}</div>
           <div class="score-mini-track"><div class="score-mini-bar" style="width:${pct}%;background:${scoreColors[k]||'#D4607A'}"></div></div>

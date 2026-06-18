@@ -216,7 +216,7 @@
 <div class="quiz-wrap" id="quizContent">
   <div class="progress-wrap">
     <div class="progress-numbers">
-      <span>Pertanyaan <strong id="qNum">1</strong> dari 15</span>
+      <span>Pertanyaan <strong id="qNum">1</strong> dari <span id="qTotal">15</span></span>
       <span id="qPct" class="quiz-step-count">0%</span>
     </div>
     <div class="progress-track">
@@ -266,12 +266,12 @@
 
   // ─── Quiz Logic ────────────────────────────────────
   let currentQ = 0;
-  const answers = new Array(15).fill(null);
+  const answers = new Array(QUESTIONS.length).fill(null);
 
   function initDots() {
     const container = document.getElementById('qDots');
     container.innerHTML = '';
-    for (let i = 0; i < 15; i++) {
+    for (let i = 0; i < QUESTIONS.length; i++) {
       const dot = document.createElement('div');
       dot.className = 'q-dot';
       dot.id = 'dot-' + i;
@@ -280,7 +280,7 @@
   }
 
   function updateDots() {
-    for (let i = 0; i < 15; i++) {
+    for (let i = 0; i < QUESTIONS.length; i++) {
       const dot = document.getElementById('dot-' + i);
       dot.className = 'q-dot';
       if (i === currentQ) dot.classList.add('current');
@@ -290,12 +290,13 @@
 
   function renderQ(animate = true) {
     const q = QUESTIONS[currentQ];
-    const pct = Math.round((currentQ / 15) * 100);
+    const pct = Math.round((currentQ / QUESTIONS.length) * 100);
     document.getElementById('progressFill').style.width = pct + '%';
     document.getElementById('qNum').textContent = currentQ + 1;
+    document.getElementById('qTotal').textContent = QUESTIONS.length;
     document.getElementById('qPct').textContent = pct + '%';
     document.getElementById('btnPrev').disabled = currentQ === 0;
-    document.getElementById('btnNext').textContent = currentQ === 14 ? 'Lihat Hasil →' : 'Lanjut →';
+    document.getElementById('btnNext').textContent = currentQ === QUESTIONS.length - 1 ? 'Lihat Hasil →' : 'Lanjut →';
 
     const sel = answers[currentQ];
     const icons = { ya:'◉', kadang: '◎', tidak: '○' };
@@ -333,7 +334,7 @@
       showToast('Pilih jawaban terlebih dahulu', 'error');
       return;
     }
-    if (currentQ < 14) {
+    if (currentQ < QUESTIONS.length - 1) {
       // Smooth in-page transition
       const card = document.querySelector('.question-card');
       if (card) {
